@@ -106,10 +106,13 @@ class ParticipantsController extends AppController
     }
 
     public function profile($id = null){
-        // $participant = $this->Participants->get($id, [
-        //     'contain' => []
-        // ]);
+        $colors = ["primary","danger","success","info","warning"];
+        $participant = $this->Participants->get($id, [
+            'contain' => []
+        ]);
 
-        // $this->set('participant', $participant);
+        $this->set('participant', $participant);
+        $this->set('colors', $colors);
+
     }
 }
