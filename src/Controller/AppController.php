@@ -54,7 +54,8 @@ class AppController extends Controller
 
     public function beforeRender(Event $event)
     {
-        // $this->viewBuilder()->layout('AdminLTE');
         $this->viewBuilder()->setTheme('AdminLTE');
+        // $this->viewBuilder()->layout('AdminLTE');
+        // $this->viewBuilder()->setTheme('AdminLTE');
     }
 }
