@@ -104,4 +104,12 @@ class ParticipantsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function profile($id = null){
+        // $participant = $this->Participants->get($id, [
+        //     'contain' => []
+        // ]);
+
+        // $this->set('participant', $participant);
+    }
 }
