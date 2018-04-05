@@ -25,6 +25,10 @@
             <td><?= h($participant->email) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Qr') ?></th>
+            <td><?= h($participant->qr) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Gender') ?></th>
             <td><?= h($participant->gender) ?></td>
         </tr>
@@ -72,9 +76,5 @@
     <div class="row">
         <h4><?= __('Technologies') ?></h4>
         <?= $this->Text->autoParagraph(h($participant->technologies)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Description') ?></h4>
-        <?= $this->Text->autoParagraph(h($participant->description)); ?>
     </div>
 </div>

@@ -23,12 +23,12 @@
         <?php
             echo $this->Form->control('name');
             echo $this->Form->control('email');
+            echo $this->Form->control('mobile');
+            echo $this->Form->control('qr');
             echo $this->Form->control('gender');
             echo $this->Form->control('occupation');
             echo $this->Form->control('skills');
             echo $this->Form->control('technologies');
-            echo $this->Form->control('mobile');
-            echo $this->Form->control('description');
             echo $this->Form->control('type');
             echo $this->Form->control('status');
             echo $this->Form->control('created_by');

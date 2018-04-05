@@ -9,12 +9,12 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property float $mobile
+ * @property string $qr
  * @property string $gender
  * @property string $occupation
  * @property string $skills
  * @property string $technologies
- * @property float $mobile
- * @property string $description
  * @property string $type
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
@@ -37,12 +37,12 @@ class Participant extends Entity
     protected $_accessible = [
         'name' => true,
         'email' => true,
+        'mobile' => true,
+        'qr' => true,
         'gender' => true,
         'occupation' => true,
         'skills' => true,
         'technologies' => true,
-        'mobile' => true,
-        'description' => true,
         'type' => true,
         'status' => true,
         'created' => true,
