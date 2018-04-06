@@ -30,9 +30,8 @@
             echo $this->Form->control('skills');
             echo $this->Form->control('technologies');
             echo $this->Form->control('type');
+            echo $this->Form->control('printed');
             echo $this->Form->control('status');
-            echo $this->Form->control('created_by');
-            echo $this->Form->control('modified_by');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

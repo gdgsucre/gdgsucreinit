@@ -64,14 +64,12 @@ class ParticipantsTable extends Table
 
         $validator
             ->decimal('mobile')
-            ->requirePresence('mobile', 'create')
-            ->notEmpty('mobile');
+            ->requirePresence('mobile', 'create');
 
         $validator
             ->scalar('qr')
             ->maxLength('qr', 240)
-            ->requirePresence('qr', 'create')
-            ->notEmpty('qr');
+            ->requirePresence('qr', 'create');
 
         $validator
             ->scalar('gender')
@@ -81,8 +79,7 @@ class ParticipantsTable extends Table
         $validator
             ->scalar('occupation')
             ->maxLength('occupation', 180)
-            ->requirePresence('occupation', 'create')
-            ->notEmpty('occupation');
+            ->requirePresence('occupation', 'create');
 
         $validator
             ->scalar('skills')
@@ -96,6 +93,11 @@ class ParticipantsTable extends Table
             ->scalar('type')
             ->maxLength('type', 1)
             ->allowEmpty('type');
+
+        $validator
+            ->scalar('printed')
+            ->maxLength('printed', 1)
+            ->allowEmpty('printed');
 
         $validator
             ->scalar('status')
@@ -123,7 +125,7 @@ class ParticipantsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
+        // $rules->add($rules->isUnique(['email']));
 
         return $rules;
     }

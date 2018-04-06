@@ -46,44 +46,46 @@ class ParticipantsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $participant = $this->Participants->newEntity();
-        if ($this->request->is('post')) {
-            $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-            if ($this->Participants->save($participant)) {
-                $this->Flash->success(__('The participant has been saved.'));
+     public function add()
+     {
+         $participant = $this->Participants->newEntity();
+         if ($this->request->is('post')) {
+             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+             $participant->created_by = 1;
+             if ($this->Participants->save($participant)) {
+                 $this->Flash->success(__('The participant has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The participant could not be saved. Please, try again.'));
-        }
-        $this->set(compact('participant'));
-    }
+                 return $this->redirect(['action' => 'index']);
+             }
+             $this->Flash->error(__('The participant could not be saved. Please, try again.'));
+         }
+         $this->set(compact('participant'));
+     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Participant id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $participant = $this->Participants->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-            if ($this->Participants->save($participant)) {
-                $this->Flash->success(__('The participant has been saved.'));
+     /**
+      * Edit method
+      *
+      * @param string|null $id Participant id.
+      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+      * @throws \Cake\Network\Exception\NotFoundException When record not found.
+      */
+     public function edit($id = null)
+     {
+         $participant = $this->Participants->get($id, [
+             'contain' => []
+         ]);
+         if ($this->request->is(['patch', 'post', 'put'])) {
+             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+             $participant->modified_by = 1;
+             if ($this->Participants->save($participant)) {
+                 $this->Flash->success(__('The participant has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The participant could not be saved. Please, try again.'));
-        }
-        $this->set(compact('participant'));
-    }
+                 return $this->redirect(['action' => 'index']);
+             }
+             $this->Flash->error(__('The participant could not be saved. Please, try again.'));
+         }
+         $this->set(compact('participant'));
+     }
 
     /**
      * Delete method
@@ -108,6 +110,7 @@ class ParticipantsController extends AppController
 
     public function profile($id = null){
         $colors = ["primary","danger","success","info","warning"];
+        echo debug($id);
         $participant = $this->Participants->get($id, [
             'contain' => []
         ]);

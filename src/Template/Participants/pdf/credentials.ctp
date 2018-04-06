@@ -30,10 +30,13 @@ $x = 5;
 $y = 5;
 $i = 0;
 foreach ($participants as $participant) {
+    $i++;
     switch ($participant->type) {
         case 'O':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-organizator.jpg', $x, $y, 65);
         break;
         case 'E':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-expositor.jpg', $x, $y, 65);
         break;
         default:
             $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-participant.jpg', $x, $y, 65);
@@ -44,18 +47,17 @@ foreach ($participants as $participant) {
     $pdf->StopTransform();
 
     // $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
+    if ($participant->type == 'P') {
+        $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
+    }
 
-    $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
+    $x += 67.5;
+    if ($i % 3 == 0) {
+        $y += 96;
+        $x = 5;
+    }
 
-    $x += 70;
-    if ($i % 3 != 0) $y += 100;
-    $i++;
 }
 $pdf->SetFont('dejavusans', 'BI', 8);
-// $pdf->MultiCell(185, 6, 'TOTAL: ', 1, 'R', '', '', '', '', 1, '', '', '', 6, 'M');
-// $pdf->MultiCell(20, 6, number_format($total['discount'], 2, ',', '.'), 1, 'R', '', '', '', '', 1, '', '', '', 6, 'M');
-// $pdf->MultiCell(18, 6, number_format($total['income'], 2, ',', '.'), 1, 'R', '', '', '', '', 1, '', '', '', 6, 'M');
-// $pdf->MultiCell(18, 6, number_format($total['expense'], 2, ',', '.'), 1, 'R', '', '', '', '', 1, '', '', '', 6, 'M');
-// $pdf->MultiCell(18, 6, number_format($total['income'] - $total['expense'], 2, ',', '.'), 1, 'R', '', 1, '', '', 1, '', '', '', 6, 'M');
 
 $pdf->Output('credenciales_' . '.pdf', 'I');
