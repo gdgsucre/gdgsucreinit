@@ -66,4 +66,12 @@ class PagesController extends AppController
             throw new NotFoundException();
         }
     }
+
+    public function dashboard () {
+        $this->loadModel('Participants');
+        $participantsCount = $this->Participants->find('all', [
+            'conditions' => ['type' => 'P', 'status' => 'A']
+            ])->count();
+        $this->set(compact('participantsCount'));
+    }
 }

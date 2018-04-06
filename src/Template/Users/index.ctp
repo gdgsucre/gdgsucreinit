@@ -1,85 +1,196 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="users index large-9 medium-8 columns content">
-    <h3><?= __('Users') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('document') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('firstname') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('lastname') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('username') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('address') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mobile') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('last_access') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('last_ip') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('last_change_password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('remember_token') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created_by') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified_by') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('role_id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->document) ?></td>
-                <td><?= h($user->firstname) ?></td>
-                <td><?= h($user->lastname) ?></td>
-                <td><?= h($user->username) ?></td>
-                <td><?= h($user->password) ?></td>
-                <td><?= h($user->email) ?></td>
-                <td><?= h($user->address) ?></td>
-                <td><?= h($user->mobile) ?></td>
-                <td><?= h($user->phone) ?></td>
-                <td><?= h($user->last_access) ?></td>
-                <td><?= h($user->last_ip) ?></td>
-                <td><?= h($user->last_change_password) ?></td>
-                <td><?= h($user->remember_token) ?></td>
-                <td><?= h($user->status) ?></td>
-                <td><?= h($user->created) ?></td>
-                <td><?= h($user->modified) ?></td>
-                <td><?= $this->Number->format($user->created_by) ?></td>
-                <td><?= $this->Number->format($user->modified_by) ?></td>
-                <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+<section class="content-header">
+    <h1>
+        Usuarios
+        <small>Listado de Usuarios</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Usuarios</a></li>
+        <li class="active">Listado</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary no-margin-bottom">
+                <div class="box-header with-border">
+                    <a class="btn btn-sm btn-success" data-toggle="modal" id="btnAddUser"><i class="fa fa-plus-circle"></i> Nuevo</a>
+                    <a class="btn btn-sm btn-warning" data-toggle="modal" id="btnEditUser"><i class="fa fa-edit"></i> Modificar</a>
+                    <a class="btn btn-sm btn-danger" data-toggle="modal" id="btnDeleteUser"><i class="fa fa-trash"></i> Borrar</a>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="jqgUsers"></table>
+                            <div id="jqgUsersPager"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<?php
+echo $this->Form->create(null, ['id' => 'UserDelete', 'url' => $this->Url->build(['controller' => 'users', 'action' => 'delete'])]);
+echo $this->Form->input('id', ['type' => 'hidden']);
+echo $this->Form->end();
+?>
+
+<div class="modal fade" id="modalUsers" role="dialog" data-backdrop="static" data-keyboard="false"></div>
+
+<?php $this->start('scriptBottom'); ?>
+<script>
+    $.jgrid.defaults.width = 780;
+    $.jgrid.defaults.responsive = true;
+    $.jgrid.defaults.styleUI = 'Bootstrap';
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#jqgUsers").jqGrid({
+            url: '<?php echo $this->Url->build(['controller' => 'users', 'action' => 'data']); ?>',
+            mtype: "GET",
+            datatype: "json",
+            page: 1,
+            colModel: [{
+                    name: 'id',
+                    index: 'id',
+                    key: true,
+                    hidden: true
+                },
+                {
+                    label: 'Documento',
+                    name: 'document',
+                    width: 100
+                },
+                {
+                    label: 'Nombre',
+                    name: 'name',
+                    width: 250
+                },
+                {
+                    label: 'Correo electrónico',
+                    name: 'email',
+                    width: 250
+                },
+                {
+                    label: 'Usuario',
+                    name: 'username',
+                    width: 200
+                },
+                {
+                    label: 'Rol',
+                    name: 'role_name',
+                    width: 200,
+                    stype: "select",
+                    searchoptions: {value: "<?php echo $rolesList; ?>"}
+                },
+                {
+                    label: "Estado",
+                    name: 'status',
+                    width: 100,
+                    stype: "select",
+                    searchoptions: {value: ":[Todos];A:Activo;I:Inactivo"},
+                    formatter: statusFormatter
+                },
+                {
+                    label: 'Ultimo acceso',
+                    name: 'last_access',
+                    width: 150
+                },
+                {
+                    label: 'Ultima IP',
+                    name: 'last_ip',
+                    width: 150
+                },
+                {
+                    label: 'Ultimo cambio de Contraseña',
+                    name: 'last_change_password',
+                    width: 200
+                }
+            ],
+            rowNum: 20,
+            rowList: [10, 20, 30, 50],
+            viewrecords: true,
+            autowidth: true,
+            shrinkToFit: false,
+            height: 400,
+            // multiselect: true,
+            emptyrecords: 'No existen registros para mostrar',
+            rownumbers: true,
+            height: '100%',
+            pager: "#jqgUsersPager"
+        });
+
+        // activate the toolbar searching
+        $('#jqgUsers').jqGrid('filterToolbar');
+        $('#jqgUsers').jqGrid('navGrid', "#jqgUsersPager", {
+            search: false, // show search button on the toolbar
+            add: false,
+            edit: false,
+            del: false,
+            refresh: true
+        });
+
+        $(window).bind('resize', function () {
+            $("#jqgUsers").setGridWidth($('#gbox_jqUsers').parent().width());
+            $("#jqgUsers").setGridHeight($(window).height() - 385);
+        }).trigger('resize');
+
+    });
+
+    $(document).ready(function () {
+        /** Formulario Nuevo */
+        $('#btnAddUser').click(function () {
+            $('#modalUsers').load('<?php echo $this->Url->build(['controller' => 'users', 'action' => 'add']); ?>', null,
+                    function () {
+                        $('#modalUsers').modal('show');
+                    }
+            );
+        });
+        /** Formulario Editar */
+        $('#btnEditUser').click(function () {
+            var row = jQuery('#jqgUsers').jqGrid('getGridParam', 'selrow');
+            rowId = jQuery('#jqgUsers').jqGrid('getCell', row, 'id');
+            if (rowId != null) {
+                $('#modalUsers').load('<?php echo $this->Url->build(['controller' => 'users', 'action' => 'edit']); ?>/' + rowId, null,
+                        function () {
+                            $('#modalUsers').modal('show');
+                        }
+                );
+            } else {
+                alert('Por favor, seleccione un registro');
+            }
+        });
+        /** Acción para borrar */
+        $('#btnDeleteUser').click(function () {
+            var row = jQuery('#jqgUsers').jqGrid('getGridParam', 'selrow');
+            rowId = jQuery('#jqgUsers').jqGrid('getCell', row, 'id');
+            if (rowId != null) {
+                rowName = jQuery('#jqgUsers').jqGrid('getCell', row, 'name');
+                if (confirm('Está segur@ de eliminar el Usuario "' + rowName + '"?')) {
+                    $('#UserDelete #id').val(rowId);
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?php echo $this->Url->build(['controller' => 'users', 'action' => 'delete']); ?>/' + rowId,
+                        data: $('#UserDelete').serialize(),
+                        success: function (response)
+                        {
+                            if (response.error == 0) {
+                                $('#modalUsers').modal('hide');
+                                $('#jqgUsers').trigger('reloadGrid');
+                            } else {
+                                alert(response.message);
+                            }
+                        }
+                    });
+                }
+            } else {
+                alert('Por favor, seleccione un registro');
+            }
+        });
+    });
+</script>
+<?php $this->end(); ?>

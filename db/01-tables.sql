@@ -55,3 +55,20 @@ CREATE TABLE participants (
     modified_by integer,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE logs_accesses
+(
+    id serial NOT NULL,
+    ip varchar(15) NOT NULL,
+    income_date timestamp NOT NULL,
+    departure_date timestamp,
+    additional_data text,
+    user_id integer NOT NULL REFERENCES users(id),
+    PRIMARY KEY (id)
+);
+
+
+INSERT INTO roles (id, name, created, created_by)
+VALUES (1, 'Administrador', NOW(), 1);
+INSERT INTO roles (id, name, created, created_by)
+VALUES (2, 'Credenciales', NOW(), 1);

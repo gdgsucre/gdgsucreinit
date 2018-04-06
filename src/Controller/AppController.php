@@ -41,21 +41,72 @@ class AppController extends Controller
     {
         parent::initialize();
 
+        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+
+        $this->loadComponent('Auth', [
+            'authorize' => ['Controller'],
+            'authError' => 'Acceso no autorizado',
+            'loginAction' => [
+                'controller' => 'access',
+                'action' => 'login'
+            ],
+            'loginRedirect' => [
+                'controller' => 'Pages',
+                'action' => 'dashboard'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'access',
+                'action' => 'login'
+            ],
+            // 'authenticate' => [
+            //     'Form' => [
+            //         'userModel'=>'Users'
+            //     ]
+            // ]
+        ]);
 
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
-        //$this->loadComponent('Security');
-        //$this->loadComponent('Csrf');
+        $this->loadComponent('Security');
+        $this->loadComponent('Csrf');
     }
 
     public function beforeRender(Event $event)
     {
         $this->viewBuilder()->setTheme('AdminLTE');
-        // $this->viewBuilder()->layout('AdminLTE');
-        // $this->viewBuilder()->setTheme('AdminLTE');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        $this->Security->requireSecure();
+        $this->set('auth', $this->Auth);
+
+        // if ($this->request->param('action') === 'index') {
+        //     $this->eventManager()->off($this->Csrf);
+        // }
+        if (in_array($this->request->param('action'), ['validateRcicch', 'validateDocument', 'validateMember', 'emailMembers', 'validateEmail', 'validateDocument', 'getDocuments', 'getActivities', 'getPrices', 'uploadImage', 'deleteFile', 'checkStatus', 'validateAmount'])) {
+            // $this->eventManager()->off($this->Csrf);
+            $this->getEventManager()->off($this->Csrf);
+        }
+
+        $this->Auth->allow(['logout', 'qr']);
+    }
+
+    public function forceSSL()
+    {
+        return $this->redirect('https://' . env('SERVER_NAME') . $this->request->getRequestTarget());
+    }
+
+    public function isAuthorized($user = null) {
+        if (in_array($user['role_id'], [1, 2])) {
+            return true;
+        }
+
+        return false;
     }
 }

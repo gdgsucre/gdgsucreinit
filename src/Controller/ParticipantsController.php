@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
 
 /**
  * Participants Controller
@@ -110,12 +111,14 @@ class ParticipantsController extends AppController
     }
 
 
-    public function profile($id = null){
+    public function profile(){
+        $qr_hash = $this->request->getParam('qr_hash');
+
         $colors = ["primary","danger","success","info","warning"];
-        echo debug($id);
-        $participant = $this->Participants->get($id, [
-            'contain' => []
-        ]);
+
+        $participant = $this->Participants->find('all', [
+            'conditions' => ['qr' => $qr_hash]
+        ])->first();
 
         $this->set('participant', $participant);
         $this->set('colors', $colors);
@@ -162,15 +165,28 @@ class ParticipantsController extends AppController
         $this->set('participants', $participants);
         $this->render('/Participants/pdf/credentials');
 
-        // $this->Participants->updateAll(
-        //     ['printed' => 'Y'],
-        //     ['id IN' => $array_ids]
-        // );
+        $this->Participants->updateAll(
+            ['printed' => 'Y'],
+            ['id IN' => $array_ids]
+        );
     }
 
     public function credentials2 () {
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
         $this->render('/Participants/pdf/credentials2');
+    }
+
+
+    public function qrFix () {
+        $participants = $this->Participants->find('all');
+
+        foreach ($participants as $participant) {
+            $this->Participants->updateAll(
+                ['qr' => md5(Configure::Read('Security.salt') . $participant->id)],
+                ['id' => $participant->id]
+            );
+        }
+exit;
     }
 }

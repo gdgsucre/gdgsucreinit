@@ -1,8 +1,6 @@
 <?php
 
 use App\Utils\Pdf;
-use App\Utils\Verhoeff;
-use Cake\Core\Configure;
 
 set_time_limit(3600);
 
@@ -57,7 +55,7 @@ foreach ($participants as $participant) {
 
     // $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
     if ($participant->type == 'P') {
-        $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
+        $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . $participant->qr, 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
     }
 
     $x += 67.5;
