@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property string $skills
  * @property string $technologies
  * @property string $type
+ * @property string $printed
  * @property string $status
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
@@ -44,6 +45,7 @@ class Participant extends Entity
         'skills' => true,
         'technologies' => true,
         'type' => true,
+        'printed' => true,
         'status' => true,
         'created' => true,
         'modified' => true,

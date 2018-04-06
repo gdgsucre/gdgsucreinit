@@ -41,6 +41,10 @@
             <td><?= h($participant->type) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Printed') ?></th>
+            <td><?= h($participant->printed) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Status') ?></th>
             <td><?= h($participant->status) ?></td>
         </tr>

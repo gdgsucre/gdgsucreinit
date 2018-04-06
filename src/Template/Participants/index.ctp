@@ -12,7 +12,7 @@
 </nav>
 <div class="participants index large-9 medium-8 columns content">
     <h3><?= __('Participants') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table table-hovered">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
@@ -23,11 +23,8 @@
                 <th scope="col"><?= $this->Paginator->sort('gender') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('occupation') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('type') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('printed') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created_by') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified_by') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -42,11 +39,8 @@
                 <td><?= h($participant->gender) ?></td>
                 <td><?= h($participant->occupation) ?></td>
                 <td><?= h($participant->type) ?></td>
+                <td><?= h($participant->printed) ?></td>
                 <td><?= h($participant->status) ?></td>
-                <td><?= h($participant->created) ?></td>
-                <td><?= h($participant->modified) ?></td>
-                <td><?= $this->Number->format($participant->created_by) ?></td>
-                <td><?= $this->Number->format($participant->modified_by) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $participant->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $participant->id]) ?>
