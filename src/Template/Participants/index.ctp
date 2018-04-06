@@ -18,9 +18,10 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('mobile') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('qr') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('gender') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('occupation') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mobile') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
@@ -36,9 +37,10 @@
                 <td><?= $this->Number->format($participant->id) ?></td>
                 <td><?= h($participant->name) ?></td>
                 <td><?= h($participant->email) ?></td>
+                <td><?= $this->Number->format($participant->mobile) ?></td>
+                <td><?= h($participant->qr) ?></td>
                 <td><?= h($participant->gender) ?></td>
                 <td><?= h($participant->occupation) ?></td>
-                <td><?= $this->Number->format($participant->mobile) ?></td>
                 <td><?= h($participant->type) ?></td>
                 <td><?= h($participant->status) ?></td>
                 <td><?= h($participant->created) ?></td>
