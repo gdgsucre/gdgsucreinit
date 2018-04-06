@@ -105,6 +105,17 @@ class ParticipantsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+
+    public function profile($id = null){
+        $colors = ["primary","danger","success","info","warning"];
+        $participant = $this->Participants->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('participant', $participant);
+        $this->set('colors', $colors);
+    }
+
     public function credentials ($ids = null) {
         if (!empty($ids)) {
             $ids = '0,' . $ids;
