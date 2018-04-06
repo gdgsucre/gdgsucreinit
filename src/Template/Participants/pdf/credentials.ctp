@@ -43,7 +43,16 @@ foreach ($participants as $participant) {
     }
 
     $pdf->StartTransform();
-    $pdf->MultiCell(55, 9, mb_strtoupper($participant->name), 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 9, 'M');
+    if ($participant->type == 'E') {
+        $pdf->SetFont('dejavusans', 'B', 13);
+        $pdf->MultiCell(55, 12, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 12, 'M');
+    } elseif ($participant->type == 'O') {
+        $pdf->SetFont('dejavusans', 'B', 12);
+        $pdf->MultiCell(55, 12, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 12, 'M');
+    } else {
+        $pdf->SetFont('dejavusans', 'B', 9);
+        $pdf->MultiCell(55, 9, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 9, 'M');
+    }
     $pdf->StopTransform();
 
     // $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);

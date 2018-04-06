@@ -52,6 +52,7 @@ class ParticipantsController extends AppController
          if ($this->request->is('post')) {
              $participant = $this->Participants->patchEntity($participant, $this->request->getData());
              $participant->created_by = 1;
+             $participant->name = mb_strtoupper($participant->name);
              if ($this->Participants->save($participant)) {
                  $this->Flash->success(__('The participant has been saved.'));
 
@@ -77,6 +78,7 @@ class ParticipantsController extends AppController
          if ($this->request->is(['patch', 'post', 'put'])) {
              $participant = $this->Participants->patchEntity($participant, $this->request->getData());
              $participant->modified_by = 1;
+             $participant->name = mb_strtoupper($participant->name);
              if ($this->Participants->save($participant)) {
                  $this->Flash->success(__('The participant has been saved.'));
 
@@ -120,22 +122,55 @@ class ParticipantsController extends AppController
     }
 
     public function credentials ($ids = null) {
-        if (!empty($ids)) {
+        if (empty($ids)) {
+            $participants = $this->Participants->find('all', [
+                'fields' => ['id', 'name', 'type'],
+                'conditions' => [
+                    'status' => 'A',
+                    'printed' => 'N'
+                ],
+                'order' => ['id' => 'ASC'],
+                'limit' => 9
+            ]);
+            $participantsList = $this->Participants->find('list', [
+                'fields' => ['id'],
+                'conditions' => [
+                    'status' => 'A',
+                    'printed' => 'N'
+                ],
+                'order' => ['id' => 'ASC'],
+                'limit' => 9
+            ]);
+            $array_ids = $participantsList;
+        } else {
             $ids = '0,' . $ids;
             $array_ids = explode(',', $ids);
             $participants = $this->Participants->find('all', [
                 'fields' => ['id', 'name', 'type'],
-                'conditions' => ['Participants.id IN' => $array_ids, 'printed' => 'N']
+                'conditions' => [
+                    'Participants.id IN' => $array_ids,
+                    'status' => 'A',
+                    'printed' => 'N'
+                ],
+                'order' => ['id' => 'ASC']
             ]);
-
-            $this->viewBuilder()->layout('ajax');
-            $this->response->type('pdf');
-// echo debug($participants->toArray());
-// exit;
-            $this->set('participants', $participants);
-            $this->render('/Participants/pdf/credentials');
-        } else {
-            $this->Flash->error(__('No selecciono Participantes. Por favor, inténtelo nuevamente.'));
         }
+
+        $this->viewBuilder()->layout('ajax');
+        $this->response->type('pdf');
+
+        $this->set('participants', $participants);
+        $this->render('/Participants/pdf/credentials');
+
+        // $this->Participants->updateAll(
+        //     ['printed' => 'Y'],
+        //     ['id IN' => $array_ids]
+        // );
+    }
+
+    public function credentials2 () {
+        $this->viewBuilder()->layout('ajax');
+        $this->response->type('pdf');
+        $this->render('/Participants/pdf/credentials2');
     }
 }
