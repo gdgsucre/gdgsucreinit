@@ -1,0 +1,32 @@
+.fa-navicon::before, .fa-reorder::before, .fa-bars::before {
+    content: "";
+}
+.no-margin-bottom {
+    margin-bottom: 0px;
+}
+label.error {
+    color: red;
+}
+.login-logo, .register-logo {
+    margin-bottom: 0px;
+}
+/* .tab-pane {
+    padding-top: 10px;
+} */
+.nav-tabs-custom > .nav-tabs > li > a {
+    font-weight: bold;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+.main-header .sidebar-toggle::before {
+    content: '';
+}
+.ui-jqgrid .ui-jqgrid-htable .ui-th-div {
+    margin-top: 0;
+    line-height: 15px;
+}
+.ui-jqgrid tr.jqgrow td {
+    white-space: normal !important;
+}

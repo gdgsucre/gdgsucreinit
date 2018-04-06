@@ -218,16 +218,16 @@ if (Configure::read('debug')) {
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Configure::write('Theme', [
-    'title' => 'AdminLTE',
+    'title' => 'GDG.Sucre.init(2018)',
     'logo' => [
-        'mini' => '<b>A</b>LT',
-        'large' => '<b>Admin</b>LTE'
+        'mini' => '<b>GDG</b>',
+        'large' => '<b>GDG</b>'
     ],
     'login' => [
-        'show_remember' => true,
-        'show_register' => true,
-        'show_social' => true
+        'show_remember' => false,
+        'show_register' => false,
+        'show_social' => false
     ],
     'folder' => ROOT,
-    'skin' => 'blue' // default is 'blue'
+    'skin' => 'red' // default is 'blue'
 ]);

@@ -4,38 +4,140 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
-    <fieldset>
-        <legend><?= __('Add User') ?></legend>
-        <?php
-            echo $this->Form->control('document');
-            echo $this->Form->control('firstname');
-            echo $this->Form->control('lastname');
-            echo $this->Form->control('username');
-            echo $this->Form->control('password');
-            echo $this->Form->control('email');
-            echo $this->Form->control('address');
-            echo $this->Form->control('mobile');
-            echo $this->Form->control('phone');
-            echo $this->Form->control('last_access');
-            echo $this->Form->control('last_ip');
-            echo $this->Form->control('last_change_password');
-            echo $this->Form->control('remember_token');
-            echo $this->Form->control('status');
-            echo $this->Form->control('created_by');
-            echo $this->Form->control('modified_by');
-            echo $this->Form->control('role_id', ['options' => $roles]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+
+<div id="formNewUser" class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <?= $this->Form->create($user, ['id' => 'user']) ?>
+        <div class="modal-header">
+            <button type="button" class="close" onclick="$('#modalUsers').modal('hide')">×</button>
+            <h4 class="modal-title">Nuevo Usuario</h4>
+        </div>
+        <div class="modal-body">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#navUserProfile">Datos Personales</a></li>
+                <li><a data-toggle="tab" href="#navUserLogin">Datos de Usuario</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="navUserProfile" class="tab-pane fade in active">
+                    <?php
+                    echo $this->Form->input('document', ['label' => 'Documento']);
+                    echo $this->Form->input('firstname', ['label' => 'Nombre']);
+                    echo $this->Form->input('lastname', ['label' => 'Apellidos']);
+                    ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('address', ['label' => 'Dirección']); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('email', ['label' => 'Correo electrónico']); ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('mobile', ['label' => 'Teléfono Móvil']); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('phone', ['label' => 'Teléfono']); ?>
+                        </div>
+                    </div>
+                </div>
+                <div id="navUserLogin" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('username', ['label' => 'Usuario']); ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php echo $this->Form->input('password', ['label' => 'Contraseña']); ?>
+                        </div>
+                    </div>
+                    <?php echo $this->Form->input('role_id', ['label' => 'Rol', 'empty' => '- Seleccione -', 'options' => $roles, 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="status" class="icheck" value="A" checked> Activo
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+            <button type="button" class="btn btn-danger" onclick="$('#modalUsers').modal('hide')"><i class="fa fa-times"></i> Cancelar</button>
+        </div>
+        <?= $this->Form->end() ?>
+    </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#formNewUser form').submit(function (e) {
+            if ($("#user").valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo $this->Url->build(['controller' => 'users', 'action' => 'add']); ?>',
+                    data: $('#formNewUser form').serialize(),
+                    success: function (response)
+                    {
+                        if (response.error == 0) {
+                            $('#modalUsers').modal('hide');
+                            $('#jqgUsers').trigger('reloadGrid');
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+
+        $("#user").validate({
+            rules: {
+                firstname: {
+                    required: true,
+                    maxlength: 60,
+                    latinLetters: true
+                },
+                lastname: {
+                    required: true,
+                    maxlength: 30,
+                    latinLetters: true
+                },
+                document: {
+                    required: true,
+                    numbersLatinLetters: true
+                },
+                email: {
+                    required: true,
+                    uniqueEmail: true
+                },
+                username: {
+                    required: true,
+                    maxlength: 30
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            }
+        });
+
+        $('input[type="checkbox"].icheck, input[type="radio"].icheck').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
+
+        var responseEmail = true;
+        $.validator.addMethod('uniqueEmail', function (value, element) {
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $this->Url->build(['controller' => 'users', 'action' => 'validateEmail']); ?>',
+                data: "email=" + value,
+                dataType: 'json',
+                success: function (data)
+                {
+                    responseEmail = (data.result == 'true') ? true : false;
+                }
+            });
+            return responseEmail;
+        }, "El Correo Electrónico ya existe");
+    });
+</script>

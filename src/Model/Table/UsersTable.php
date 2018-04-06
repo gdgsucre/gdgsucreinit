@@ -35,7 +35,7 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -43,6 +43,10 @@ class UsersTable extends Table
         $this->belongsTo('Roles', [
             'foreignKey' => 'role_id',
             'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('LogsAccesses', [
+            'foreignKey' => 'user_id'
         ]);
     }
 

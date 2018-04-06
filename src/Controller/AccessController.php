@@ -29,8 +29,6 @@ class AccessController extends AppController {
                     'additional_data' => $_SERVER['HTTP_USER_AGENT'],
                     'user_id' => $user['id']
                 ];
-                $logsAccess = $this->Users->LogsAccesses->patchEntity($logsAccess, $data);
-                $this->Users->LogsAccesses->save($logsAccess);
 
                 $this->Auth->setUser($user);
                 /** Actualizamos los datos de acceso del Usuario */
