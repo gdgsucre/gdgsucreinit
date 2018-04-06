@@ -14,32 +14,99 @@ use Cake\Core\Configure;
 class ParticipantsController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
-     */
-    public function index()
-    {
-        $participants = $this->paginate($this->Participants);
-
-        $this->set(compact('participants'));
+    public function index() {
+        $type = ':[Todos];P:Participante;E:Expositor;O:Organizador';
+        $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
+        $gender = ':[Todos];F:Femenino;M:Masculino';
+        $status = ':[Todos];A:Activo;I:Inactivo';
+        $this->set(compact('type', 'printed', 'gender', 'status'));
     }
 
     /**
-     * View method
+     * Data method
      *
-     * @param string|null $id Participant id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return \Cake\Http\Response|json
      */
-    public function view($id = null)
-    {
-        $participant = $this->Participants->get($id, [
-            'contain' => []
-        ]);
+    public function data() {
+        $name = $this->request->getQuery('name');
+        $email = $this->request->getQuery('email');
+        $mobile = $this->request->getQuery('mobile');
+        $qr = $this->request->getQuery('qr');
+        $gender = $this->request->getQuery('gender');
+        $occupation = $this->request->getQuery('occupation');
+        $skills = $this->request->getQuery('skills');
+        $technologies = $this->request->getQuery('technologies');
+        $type = $this->request->getQuery('type');
+        $printed = $this->request->getQuery('printed');
+        $status = $this->request->getQuery('status');
 
-        $this->set('participant', $participant);
+        $limit = $this->request->getQuery('rows');
+        $page = $this->request->getQuery('page');
+        $sord = $this->request->getQuery('sord');
+        $sidx = $this->request->getQuery('sidx');
+
+        $conditions = [];
+        if (!empty($name)) {
+            $conditions['name ILIKE'] = '%' . $name . '%';
+        }
+        if (!empty($email)) {
+            $conditions['email ILIKE'] = '%' . $email . '%';
+        }
+        if (!empty($mobile)) {
+            $conditions['mobile'] = $mobile;
+        }
+        if (!empty($qr)) {
+            $conditions['qr'] = $qr;
+        }
+        if (!empty($gender)) {
+            $conditions['gender'] = $gender;
+        }
+        if (!empty($occupation)) {
+            $conditions['occupation ILIKE'] = '%' . $occupation . '%';
+        }
+        if (!empty($skills)) {
+            $conditions['skills ILIKE'] = '%' . $skills . '%';
+        }
+        if (!empty($technologies)) {
+            $conditions['technologies ILIKE'] = '%' . $technologies . '%';
+        }
+        if (!empty($type)) {
+            $conditions['type'] = $type;
+        }
+        if (!empty($printed)) {
+            $conditions['printed'] = $printed;
+        }
+        if (!empty($status)) {
+            $conditions['status'] = $status;
+        }
+
+        $query = $this->Participants->find('all', [
+                    'fields' => [
+                        'id',
+                        'name', 'email', 'mobile', 'qr',
+                        'gender', 'occupation', 'skills', 'technologies',
+                        'type', 'printed', 'status'
+                    ],
+                    'contain' => []
+                ])->where($conditions);
+
+        try {
+            $rows = $this->paginate($query, [
+                'limit' => $limit,
+                'page' => $page,
+                'order' => ['Participants.' . $sidx => $sord]
+            ]);
+        } catch (\Exception $e) {
+            $rows = [];
+        }
+
+        $total = $query->count();
+        $pages = (int) ($total / $limit);
+        $total = ($total % $limit) ? $pages + 1 : $pages;
+        $records = $query->count();
+
+        $this->set(compact('rows', 'total', 'records'));
+        $this->set('_serialize', ['rows', 'total', 'records']);
     }
 
     /**
@@ -47,67 +114,62 @@ class ParticipantsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-     public function add()
-     {
-         $participant = $this->Participants->newEntity();
-         if ($this->request->is('post')) {
-             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-             $participant->created_by = 1;
-             $participant->name = mb_strtoupper($participant->name);
-             if ($this->Participants->save($participant)) {
-                 $this->Flash->success(__('The participant has been saved.'));
+    public function add() {
+        $participant = $this->Participants->newEntity();
+        if ($this->request->is('post')) {
+            $data['error'] = 0;
 
-                 return $this->redirect(['action' => 'index']);
-             }
-             $this->Flash->error(__('The participant could not be saved. Please, try again.'));
-         }
-         $this->set(compact('participant'));
-     }
+            $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+            $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
+            $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
+            $participant->created_by = $this->Auth->user('id');
+            if (!$this->Participants->save($participant)) {
+                $data['error'] = 1;
+                $data['message'] = 'El Participante no se pudo registrar. Verifique los datos e inténtelo nuevamente';
+            }
 
-     /**
-      * Edit method
-      *
-      * @param string|null $id Participant id.
-      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-      * @throws \Cake\Network\Exception\NotFoundException When record not found.
-      */
-     public function edit($id = null)
-     {
-         $participant = $this->Participants->get($id, [
-             'contain' => []
-         ]);
-         if ($this->request->is(['patch', 'post', 'put'])) {
-             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-             $participant->modified_by = 1;
-             $participant->name = mb_strtoupper($participant->name);
-             if ($this->Participants->save($participant)) {
-                 $this->Flash->success(__('The participant has been saved.'));
-
-                 return $this->redirect(['action' => 'index']);
-             }
-             $this->Flash->error(__('The participant could not be saved. Please, try again.'));
-         }
-         $this->set(compact('participant'));
-     }
+            $this->response->type('json');
+            $this->response->body(json_encode($data));
+            return $this->response;
+        } else {
+            $this->viewBuilder()->layout('ajax');
+            $this->set(compact('participant'));
+            $this->set('_serialize', ['participant']);
+        }
+    }
 
     /**
-     * Delete method
+     * Edit method
      *
-     * @param string|null $id Participant id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @param string|null $id Product id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $participant = $this->Participants->get($id);
-        if ($this->Participants->delete($participant)) {
-            $this->Flash->success(__('The participant has been deleted.'));
-        } else {
-            $this->Flash->error(__('The participant could not be deleted. Please, try again.'));
-        }
+    public function edit($id = null) {
+        $participant = $this->Participants->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data['error'] = 0;
 
-        return $this->redirect(['action' => 'index']);
+            $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+            $participant->name = mb_strtoupper($participant->name);
+            $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
+            $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
+            $participant->modified_by = $this->Auth->user('id');
+            if (!$this->Participants->save($participant)) {
+                $data['error'] = 1;
+                $data['message'] = 'El Participante no se pudo modificar. Verifique los datos e inténtelo nuevamente';
+            }
+
+            $this->response->type('json');
+            $this->response->body(json_encode($data));
+            return $this->response;
+        } else {
+            $this->viewBuilder()->layout('ajax');
+            $this->set(compact('participant'));
+            $this->set('_serialize', ['participant']);
+        }
     }
 
 

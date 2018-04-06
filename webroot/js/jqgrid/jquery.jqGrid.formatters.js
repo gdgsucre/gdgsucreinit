@@ -9,66 +9,36 @@ function statusFormatter(cellValue, options, rowObject)
     }
 }
 
-function accountTypesFormatter(cellValue, options, rowObject)
+function genderFormatter(cellValue, options, rowObject)
 {
-    if (cellValue == 'B') {
-        return 'Ambos';
-    } else if (cellValue == 'I') {
-        return 'Ingreso';
+    if (cellValue == 'F') {
+        return 'Femenino';
+    } else if (cellValue == 'M') {
+        return 'Masculino';
+    } else {
+        return '';
+    }
+}
+
+function typeFormatter(cellValue, options, rowObject)
+{
+    if (cellValue == 'P') {
+        return 'Participante';
     } else if (cellValue == 'E') {
-        return 'Egreso';
+        return 'Expositor';
+    } else if (cellValue == 'O') {
+        return 'Organizador';
     } else {
         return '';
     }
 }
 
-function paymentMethods(cellValue, options, rowObject)
-{
-    if (cellValue == 'E') {
-        return 'Efectivo';
-    } else if (cellValue == 'D') {
-        return 'Depósito';
-    } else if (cellValue == 'C') {
-        return 'Cheque';
-    } else if (cellValue == 'T') {
-        return 'Transferencia';
-    } else if (cellValue == 'G') {
-        return 'Cortesía';
-    } else {
-        return '';
-    }
-}
-
-function movementStates(cellValue, options, rowObject)
-{
-    if (cellValue == 'V') {
-        return 'Válido';
-    } else if (cellValue == 'A') {
-        return 'Anulado';
-    } else {
-        return '';
-    }
-}
-
-function checkStatus(cellValue, options, rowObject)
-{
-    if (cellValue == 'G') {
-        return 'Generado';
-    } else if (cellValue == 'P') {
-        return 'Impreso';
-    } else if (cellValue == 'D') {
-        return 'Entregado';
-    } else {
-        return '';
-    }
-}
-
-function backwardFormatter(cellValue, options, rowObject)
+function printedFormatter(cellValue, options, rowObject)
 {
     if (cellValue == 'Y') {
-        return 'Si';
+        return 'Impreso';
     } else if (cellValue == 'N') {
-        return 'No';
+        return 'Sin imprimir';
     } else {
         return '';
     }
