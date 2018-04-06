@@ -1,6 +1,8 @@
 <?php
 
 use App\Utils\Pdf;
+use App\Utils\Verhoeff;
+use Cake\Core\Configure;
 
 set_time_limit(3600);
 
@@ -41,8 +43,9 @@ foreach ($participants as $participant) {
     $pdf->MultiCell(55, 9, mb_strtoupper($participant->name), 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 9, 'M');
     $pdf->StopTransform();
 
-    $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', $participant->id], true);
-    $pdf->write2DBarcode($text_qr, 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
+    // $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
+
+    $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
 
     $x += 70;
     if ($i % 3 != 0) $y += 100;
