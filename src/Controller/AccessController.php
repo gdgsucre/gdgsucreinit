@@ -52,14 +52,13 @@ class AccessController extends AppController {
     }
 
     public function password() {
-        $this->viewBuilder()->layout('rcadmin');
         $this->loadModel('Users');
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Access->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->getData());
 //            echo debug($user); exit();
             $user->password = (new DefaultPasswordHasher)->hash($this->request->data['password_new']);
             $user->last_change_password = date('Y-m-d H:i:s');
