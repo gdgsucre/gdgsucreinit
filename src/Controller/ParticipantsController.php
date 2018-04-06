@@ -104,4 +104,24 @@ class ParticipantsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function credentials ($ids = null) {
+        if (!empty($ids)) {
+            $ids = '0,' . $ids;
+            $array_ids = explode(',', $ids);
+            $participants = $this->Participants->find('all', [
+                'fields' => ['id', 'name', 'type'],
+                'conditions' => ['Participants.id IN' => $array_ids, 'printed' => 'N']
+            ]);
+
+            $this->viewBuilder()->layout('ajax');
+            $this->response->type('pdf');
+// echo debug($participants->toArray());
+// exit;
+            $this->set('participants', $participants);
+            $this->render('/Participants/pdf/credentials');
+        } else {
+            $this->Flash->error(__('No selecciono Participantes. Por favor, inténtelo nuevamente.'));
+        }
+    }
 }

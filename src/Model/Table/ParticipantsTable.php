@@ -63,6 +63,17 @@ class ParticipantsTable extends Table
             ->notEmpty('email');
 
         $validator
+            ->decimal('mobile')
+            ->requirePresence('mobile', 'create')
+            ->notEmpty('mobile');
+
+        $validator
+            ->scalar('qr')
+            ->maxLength('qr', 240)
+            ->requirePresence('qr', 'create')
+            ->notEmpty('qr');
+
+        $validator
             ->scalar('gender')
             ->maxLength('gender', 1)
             ->allowEmpty('gender');
@@ -80,14 +91,6 @@ class ParticipantsTable extends Table
         $validator
             ->scalar('technologies')
             ->allowEmpty('technologies');
-
-        $validator
-            ->decimal('mobile')
-            ->allowEmpty('mobile');
-
-        $validator
-            ->scalar('description')
-            ->allowEmpty('description');
 
         $validator
             ->scalar('type')
