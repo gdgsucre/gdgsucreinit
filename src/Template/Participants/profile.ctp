@@ -49,7 +49,7 @@
 
                     <hr>
 
-                    <!-- <a href="#" class="btn btn-primary btn-block"><b>Ver Certificado</b></a> -->
+                    <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a>
                     <?php } else { ?>
                         <h3 class="profile-username text-center">Registro inválido</h3>
                     <?php } ?>
