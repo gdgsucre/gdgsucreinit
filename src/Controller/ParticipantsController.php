@@ -233,10 +233,22 @@ class ParticipantsController extends AppController
         );
     }
 
-    public function credentials2 () {
+    public function certificate () {
+        $qr = $this->request->getParam('qr');
+echo debug($qr);
+        $participant = $this->Participants->find('all', [
+            'fields' => ['qr', 'name'],
+            'conditions' => [
+                'qr' => $qr,
+                'status' => 'A'
+            ]
+        ])->first();
+        $this->set('participant', $participant);
+        // echo debug($participant); exit;
+
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
-        $this->render('/Participants/pdf/credentials2');
+        $this->render('/Participants/pdf/certificate');
     }
 
 

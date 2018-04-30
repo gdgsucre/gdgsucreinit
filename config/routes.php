@@ -59,6 +59,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect('/qr/:qr_hash', ['controller' => 'participants', 'action' => 'profile']);
+    $routes->connect('/certificate/:qr', ['controller' => 'participants', 'action' => 'certificate']);
 
     /**
      * Connect catchall routes for all controllers.
