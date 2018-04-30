@@ -94,7 +94,7 @@ class AppController extends Controller
             $this->getEventManager()->off($this->Csrf);
         }
 
-        $this->Auth->allow(['logout', 'profile']);
+        $this->Auth->allow(['logout', 'profile', 'certificate']);
     }
 
     public function forceSSL()
