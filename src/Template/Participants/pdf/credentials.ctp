@@ -1,7 +1,7 @@
 <?php
 
 use App\Utils\Pdf;
-
+use Cake\Core\Configure;
 set_time_limit(3600);
 
 
@@ -14,8 +14,8 @@ $styleQR = array(
     'module_width' => 1,
     'module_height' => 1
 );
-
-$pdf = new Pdf('Credenciales', 'R', array(210, 297));
+//dd($participants);
+$pdf = new Pdf('Credenciales', 'R', array(210, 297),true,'UTF-8');
 
 $pdf->setAutoPageBreak(false);
 $pdf->SetFillColor(255, 255, 255);
@@ -27,8 +27,10 @@ $pdf->SetFont('dejavusans', 'B', 9);
 $x = 5;
 $y = 5;
 $i = 0;
+
 foreach ($participants as $participant) {
     $i++;
+    //dd($participant);
     switch ($participant->type) {
         case 'O':
             $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-organizator.jpg', $x, $y, 65);
@@ -39,7 +41,6 @@ foreach ($participants as $participant) {
         default:
             $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-participant.jpg', $x, $y, 65);
     }
-
     $pdf->StartTransform();
     if ($participant->type == 'E') {
         $pdf->SetFont('dejavusans', 'B', 13);
@@ -52,10 +53,11 @@ foreach ($participants as $participant) {
         $pdf->MultiCell(55, 9, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 9, 'M');
     }
     $pdf->StopTransform();
+   // debug($participant->qr);
+    //$text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
 
-    // $text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
     if ($participant->type == 'P') {
-        $pdf->write2DBarcode('https://gdgsucre.rootcode.com.bo/init/qr/' . $participant->qr, 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
+        $pdf->write2DBarcode('https://192.168.1.6/gdgsucreinit/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
     }
 
     $x += 67.5;

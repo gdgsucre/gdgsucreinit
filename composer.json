@@ -12,7 +12,7 @@
         "josegonzalez/dotenv": "2.*",
         "maiconpinto/cakephp-adminlte-theme": "^1.0",
         "mobiledetect/mobiledetectlib": "2.*",
-        "tecnick.com/tcpdf": "^6.2"
+        "tecnickcom/tcpdf": "^6.2"
     },
     "require-dev": {
         "cakephp/bake": "^1.1",

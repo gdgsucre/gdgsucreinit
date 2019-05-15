@@ -189,7 +189,7 @@ class ParticipantsController extends AppController
     public function credentials ($ids = null) {
         if (empty($ids)) {
             $participants = $this->Participants->find('all', [
-                'fields' => ['id', 'name', 'type'],
+                'fields' => ['id', 'name', 'type','qr'],
                 'conditions' => [
                     'status' => 'A',
                     'printed' => 'N'
@@ -223,19 +223,18 @@ class ParticipantsController extends AppController
 
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
-
+        //dd($participants->toArray());
         $this->set('participants', $participants);
         $this->render('/Participants/pdf/credentials');
 
-        $this->Participants->updateAll(
-            ['printed' => 'Y'],
-            ['id IN' => $array_ids]
-        );
+        // $this->Participants->updateAll(
+        //     ['printed' => 'Y'],
+        //     ['id IN' => $array_ids]
+        // );
     }
 
     public function certificate () {
         $qr = $this->request->getParam('qr');
-echo debug($qr);
         $participant = $this->Participants->find('all', [
             'fields' => ['qr', 'name'],
             'conditions' => [
