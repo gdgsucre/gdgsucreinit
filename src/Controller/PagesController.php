@@ -70,7 +70,7 @@ class PagesController extends AppController
     public function dashboard () {
         $this->loadModel('Participants');
         $participantsCount = $this->Participants->find('all', [
-            'conditions' => ['type' => 'P', 'status' => 'A']
+            'conditions' => ['status' => 'A']
             ])->count();
         $this->set(compact('participantsCount'));
     }

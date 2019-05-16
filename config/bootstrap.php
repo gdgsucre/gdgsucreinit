@@ -218,10 +218,10 @@ if (Configure::read('debug')) {
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Configure::write('Theme', [
-    'title' => 'GDG.Sucre.init(2018)',
+    'title' => 'Girls Power Tech(2019)',
     'logo' => [
-        'mini' => '<b>GDG</b>',
-        'large' => '<b>GDG</b>'
+        'mini' => '<b>Girls Power Tech</b>',
+        'large' => '<b>Girls Power Tech</b>'
     ],
     'login' => [
         'show_remember' => false,

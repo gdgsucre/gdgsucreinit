@@ -24,28 +24,6 @@
                     <p class="text-muted">
                         <?=  $participant->email;?>
                     </p>
-                    <strong><i class="fa fa-book margin-r-5"></i> Tecnologías</strong>
-
-                    <p class="text-muted">
-                        <?=  $participant->technologies;?>
-                    </p>
-
-                    <hr>
-
-                    <strong><i class="fa fa-code margin-r-5"></i> Skills</strong>
-                    <?php $skills = $participant->skills; ?>
-                    <?php $skills = explode(",", $skills);?>
-                    <p>
-                        <?php
-                        $i = 0;
-                        foreach ($skills as $skill) {
-                            echo "<span style='margin-right:5px' class='label label-".$colors[$i]."'>".$skill."</span>";
-
-                            if($i==4){$i = 0;};
-                            $i++;
-                        }
-                        ?>
-                    </p>
 
                     <hr>
 

@@ -223,14 +223,17 @@ class ParticipantsController extends AppController
 
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
-        //dd($participants->toArray());
         $this->set('participants', $participants);
         $this->render('/Participants/pdf/credentials');
 
-        // $this->Participants->updateAll(
-        //     ['printed' => 'Y'],
-        //     ['id IN' => $array_ids]
-        // );
+
+        foreach ($participants as $participant) {
+            $this->Participants->updateAll(
+                ['printed' => 'Y'],
+                ['id' => $participant->id]
+            );
+        }
+        
     }
 
     public function certificate () {
