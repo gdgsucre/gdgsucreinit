@@ -3,11 +3,11 @@
     <div class="row">
 
         <div class="col-md-offset-3 col-md-6">
-            <?php  echo $this->Html->image('banner.jpg', array('class' => 'img-responsive ', 'alt' => 'User profile picture')); ?>
+            <?php  echo $this->Html->image('banner_gpt.jpg', array('class' => 'img-responsive ', 'alt' => 'User profile picture')); ?>
             <!-- Profile Image -->
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <?php  echo $this->Html->image('logo.png', array('class' => 'profile-user-img img-responsive img-circle', 'alt' => 'User profile picture')); ?>
+                    <?php  echo $this->Html->image('logo_gpt.png', array('class' => 'profile-user-img img-responsive img-circle', 'alt' => 'User profile picture')); ?>
 
                     <?php if ($participant) { ?>
                     <h3 class="profile-username text-center"><?=  $participant->name;?></h3>
@@ -49,7 +49,7 @@
 
                     <hr>
 
-                    <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a>
+                    <!-- <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a> -->
                     <?php } else { ?>
                         <h3 class="profile-username text-center">Registro inválido</h3>
                     <?php } ?>
