@@ -78,11 +78,6 @@ echo $this->Form->end();
                     width: 120
                 },
                 {
-                    label: 'QR Hash',
-                    name: 'qr',
-                    width: 200
-                },
-                {
                     label: 'Género',
                     name: 'gender',
                     width: 120,

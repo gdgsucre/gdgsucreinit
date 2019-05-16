@@ -59,8 +59,7 @@ class ParticipantsTable extends Table
 
         $validator
             ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->allowEmpty('email');
 
         $validator
             ->decimal('mobile')
@@ -68,8 +67,7 @@ class ParticipantsTable extends Table
 
         $validator
             ->scalar('qr')
-            ->maxLength('qr', 240)
-            ->requirePresence('qr', 'create');
+            ->maxLength('qr', 240);
 
         $validator
             ->scalar('gender')

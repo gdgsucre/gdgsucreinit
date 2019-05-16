@@ -22,7 +22,7 @@
                     <?php echo $this->Form->input('name', ['label' => 'Nombre']); ?>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'E' => 'Expositor', 'O' => 'Organizador'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'E' => 'Expositor', 'O' => 'Organizador','S'=>'Soporte','C'=>'Speaker','M'=>'Mentora'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
             </div>
             <div class="row">
@@ -33,7 +33,7 @@
                     <?php echo $this->Form->input('mobile', ['label' => 'Teléfono Móvil']); ?>
                 </div>
             </div>
-            <?php echo $this->Form->input('qr', ['label' => 'QR Hash']); ?>
+            <?php // echo $this->Form->input('qr', ['label' => 'QR Hash']); ?>
             <div class="row">
                 <div class="col-md-6">
                     <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>

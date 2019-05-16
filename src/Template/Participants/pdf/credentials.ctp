@@ -31,35 +31,35 @@ $i = 0;
 foreach ($participants as $participant) {
     $i++;
     //dd($participant);
-    switch ($participant->type) {
+        switch ($participant->type) {
         case 'O':
-            $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-organizator.jpg', $x, $y, 65);
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_organizador.jpg', $x, $y, 65);
         break;
         case 'E':
-            $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-expositor.jpg', $x, $y, 65);
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_expositora.jpg', $x, $y, 65);
+        break;
+        case 'S':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_soporte.jpg', $x, $y, 65);
+        break;
+        case 'P':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_participante.jpg', $x, $y, 65);
+        break;
+        case 'C':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_speaker_negro.jpg', $x, $y, 65);
+        break;
+        case 'M':
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_mentora.jpg', $x, $y, 65);
         break;
         default:
-            $pdf->Image(WWW_ROOT . 'img' . DS . 'credential-participant.jpg', $x, $y, 65);
+            $pdf->Image(WWW_ROOT . 'img' . DS . 'c_participante.jpg', $x, $y, 65);
     }
     $pdf->StartTransform();
-    if ($participant->type == 'E') {
-        $pdf->SetFont('dejavusans', 'B', 13);
-        $pdf->MultiCell(55, 12, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 12, 'M');
-    } elseif ($participant->type == 'O') {
-        $pdf->SetFont('dejavusans', 'B', 12);
-        $pdf->MultiCell(55, 12, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 12, 'M');
-    } else {
-        $pdf->SetFont('dejavusans', 'B', 9);
-        $pdf->MultiCell(55, 9, $participant->name, 0, 'C', 1, 0, $x + 5, $y + 42, 1, '', '', '', 9, 'M');
-    }
+
+    $pdf->SetFont('dejavusans', 'B', 10);
+    $pdf->MultiCell(55, 12, strtoupper($participant->name), 0, 'C', 1, 0, $x + 5, $y + 43.5, 1, '', '', '', 12, 'M');
+ 
     $pdf->StopTransform();
-   // debug($participant->qr);
-    //$text_qr = $this->Url->build(['controller' => 'Participants', 'action' => 'view', ], false);
-
-    if ($participant->type == 'P') {
-        $pdf->write2DBarcode('https://192.168.1.6/gdgsucreinit/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 18.5, $y + 60.6, 28, 28, $styleQR, 'N');
-    }
-
+    $pdf->write2DBarcode('https://192.168.1.6/gdgsucreinit/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 19, $y + 63, 28, 28, $styleQR, 'N');
     $x += 67.5;
     if ($i % 3 == 0) {
         $y += 96;
