@@ -19,7 +19,7 @@
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3><?php echo $participantsCount; ?></h3>
-                    <p>Participantes Registrados</p>
+                    <p>Registros</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-address-card"></i>

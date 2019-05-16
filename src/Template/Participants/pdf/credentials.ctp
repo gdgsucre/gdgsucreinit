@@ -70,7 +70,7 @@ foreach ($participants as $participant) {
         $y += 96;
         $x = 5;
     }
-
+    
 }
 $pdf->SetFont('dejavusans', 'BI', 8);
 

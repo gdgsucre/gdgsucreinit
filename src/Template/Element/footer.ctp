@@ -5,7 +5,7 @@ use Cake\Core\Configure;
     <div class="pull-right hidden-xs">
         <b><?php echo Configure::read('Application.alias'); ?> </b> v<?php echo Configure::read('Application.version'); ?>
     </div>
-    <strong>Copyright &copy; 2018 <a href="http://www.rootcode.com.bo">Servicios Informáticos #RootCode</a>.</strong> Todos los derechos reservados.
+    <strong>Copyright &copy; 2019 <a href="http://www.rootcode.com.bo">Servicios Informáticos #RootCode</a>.</strong> Todos los derechos reservados.
 </footer>
 <?php
 echo $this->Html->script('jquery.validate.min', ['block' => 'script']);
