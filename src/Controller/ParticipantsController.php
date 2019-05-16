@@ -77,7 +77,7 @@ class ParticipantsController extends AppController
             $conditions['printed'] = $printed;
         }
         if (!empty($status)) {
-            $conditions['status'] = $status;
+            $conditions['status'] = 'A';
         }
 
         $query = $this->Participants->find('all', [
