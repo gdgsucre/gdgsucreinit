@@ -47,10 +47,10 @@ class ParticipantsController extends AppController
 
         $conditions = [];
         if (!empty($name)) {
-            $conditions['name ILIKE'] = '%' . $name . '%';
+            $conditions['name LIKE'] = '%' . $name . '%';
         }
         if (!empty($email)) {
-            $conditions['email ILIKE'] = '%' . $email . '%';
+            $conditions['email LIKE'] = '%' . $email . '%';
         }
         if (!empty($mobile)) {
             $conditions['mobile'] = $mobile;
@@ -62,14 +62,14 @@ class ParticipantsController extends AppController
             $conditions['gender'] = $gender;
         }
         if (!empty($occupation)) {
-            $conditions['occupation ILIKE'] = '%' . $occupation . '%';
+            $conditions['occupation LIKE'] = '%' . $occupation . '%';
         }
-        if (!empty($skills)) {
-            $conditions['skills ILIKE'] = '%' . $skills . '%';
-        }
-        if (!empty($technologies)) {
-            $conditions['technologies ILIKE'] = '%' . $technologies . '%';
-        }
+        // if (!empty($skills)) {
+        //     $conditions['skills LIKE'] = '%' . $skills . '%';
+        // }
+        // if (!empty($technologies)) {
+        //     $conditions['technologies LIKE'] = '%' . $technologies . '%';
+        // }
         if (!empty($type)) {
             $conditions['type'] = $type;
         }
@@ -77,7 +77,7 @@ class ParticipantsController extends AppController
             $conditions['printed'] = $printed;
         }
         if (!empty($status)) {
-            $conditions['status'] = 'A';
+            $conditions['status'] = $status;
         }
 
         $query = $this->Participants->find('all', [

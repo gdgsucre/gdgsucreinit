@@ -121,8 +121,9 @@ echo $this->Form->end();
                     name: 'status',
                     width: 100,
                     stype: "select",
-                    searchoptions: {value: "<?php echo $status; ?>"},
-                    formatter: statusFormatter
+                    searchoptions: {value: "<?php echo $status; ?>",defaultValue:'A'},
+                    formatter: statusFormatter,
+                    
                 }
             ],
             rowNum: 20,
@@ -137,7 +138,10 @@ echo $this->Form->end();
             height: '100%',
             pager: "#jqgParticipantsPager",
             sortname: 'created',
-            sortorder: 'DESC'
+            sortorder: 'DESC',
+            postData: {
+                status: 'A'
+            },
         });
 
         // activate the toolbar searching
