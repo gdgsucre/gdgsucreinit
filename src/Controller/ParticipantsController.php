@@ -239,7 +239,7 @@ class ParticipantsController extends AppController
     public function certificate () {
         $qr = $this->request->getParam('qr');
         $participant = $this->Participants->find('all', [
-            'fields' => ['qr', 'name'],
+            'fields' => ['qr', 'name','type'],
             'conditions' => [
                 'qr' => $qr,
                 'status' => 'A'

@@ -62,7 +62,6 @@ foreach ($participants as $participant) {
     $pdf->StopTransform();
 
     $key = 'gpt2o19';
-    ;
     $pdf->write2DBarcode('https://gpt.itgroup.systems/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 21, $y + 68.5, 29, 29, $styleQR, 'N');
     //$pdf->write2DBarcode('https://192.168.1.6/gdgsucreinit/qr/' . md5(Configure::Read('Security.salt') . $participant->id), 'QRCODE,M', $x + 19, $y + 63, 28, 28, $styleQR, 'N');
     $x += 70;

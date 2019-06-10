@@ -10,8 +10,31 @@ $pdf->setAutoPageBreak(false);
 $pdf->SetFillColor(255, 255, 255);
 
 $pdf->AddPage();
-
-$pdf->Image(WWW_ROOT . 'img' . DS . 'certificate_1.jpg', 0, 0, 279);
+// ['P' => 'Participante', 'E' => 'Expositor', 'O' => 'Organizador','S'=>'Soporte','C'=>'Speaker','M'=>'Mentora'];
+// dd($participant);
+switch ($participant->type) {
+    case 'P':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_P.jpg', 0, 0, 279);
+        break;
+    case 'E':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_E.jpg', 0, 0, 279);
+        break; 
+    case 'O':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_O.jpg', 0, 0, 279);
+        break;        
+    case 'S':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_p.jpg', 0, 0, 279);
+        break; 
+    case 'C':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_C.jpg', 0, 0, 279);
+        break;   
+    case 'M':
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_M.jpg', 0, 0, 279);
+        break;       
+    default:
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_P.jpg', 0, 0, 279);
+        break;
+}
 
 $pdf->SetFont('dejavusans', 'B', 24);
 
