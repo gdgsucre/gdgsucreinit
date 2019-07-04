@@ -23,7 +23,7 @@ switch ($participant->type) {
         $pdf->Image(WWW_ROOT . 'img' . DS . 'c_O.jpg', 0, 0, 279);
         break;        
     case 'S':
-        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_p.jpg', 0, 0, 279);
+        $pdf->Image(WWW_ROOT . 'img' . DS . 'c_P.jpg', 0, 0, 279);
         break; 
     case 'C':
         $pdf->Image(WWW_ROOT . 'img' . DS . 'c_C.jpg', 0, 0, 279);
