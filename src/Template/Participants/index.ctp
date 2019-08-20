@@ -68,15 +68,15 @@ echo $this->Form->end();
                     width: 200
                 },
                 {
-                    label: 'Correo electrónico',
-                    name: 'email',
+                    label: 'Team',
+                    name: 'team',
                     width: 200
                 },
-                {
-                    label: 'Teléfono Móvil',
-                    name: 'mobile',
-                    width: 120
-                },
+                // {
+                //     label: 'Teléfono Móvil',
+                //     name: 'mobile',
+                //     width: 120
+                // },
                 {
                     label: 'Género',
                     name: 'gender',
@@ -85,21 +85,21 @@ echo $this->Form->end();
                     searchoptions: {value: "<?php echo $gender; ?>"},
                     formatter: genderFormatter
                 },
-                {
-                    label: 'Ocupación',
-                    name: 'occupation',
-                    width: 120
-                },
-                {
-                    label: 'Aptitudes',
-                    name: 'skills',
-                    width: 200
-                },
-                {
-                    label: 'Tecnologías utilizadas',
-                    name: 'technologies',
-                    width: 200
-                },
+                // {
+                //     label: 'Ocupación',
+                //     name: 'occupation',
+                //     width: 120
+                // },
+                // {
+                //     label: 'Aptitudes',
+                //     name: 'skills',
+                //     width: 200
+                // },
+                // {
+                //     label: 'Tecnologías utilizadas',
+                //     name: 'technologies',
+                //     width: 200
+                // },
                 {
                     label: 'Tipo',
                     name: 'type',
@@ -123,7 +123,7 @@ echo $this->Form->end();
                     stype: "select",
                     searchoptions: {value: "<?php echo $status; ?>",defaultValue:'A'},
                     formatter: statusFormatter,
-                    
+
                 }
             ],
             rowNum: 20,

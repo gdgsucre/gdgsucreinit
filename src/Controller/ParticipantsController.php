@@ -15,7 +15,7 @@ class ParticipantsController extends AppController
 {
 
     public function index() {
-        $type = ':[Todos];P:Participante;E:Expositor;O:Organizador';
+        $type = ':[Todos];P:Participante;T:Tutor;O:Organizador';
         $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
         $gender = ':[Todos];F:Femenino;M:Masculino';
         $status = ':[Todos];A:Activo;I:Inactivo';
@@ -33,9 +33,7 @@ class ParticipantsController extends AppController
         $mobile = $this->request->getQuery('mobile');
         $qr = $this->request->getQuery('qr');
         $gender = $this->request->getQuery('gender');
-        $occupation = $this->request->getQuery('occupation');
-        $skills = $this->request->getQuery('skills');
-        $technologies = $this->request->getQuery('technologies');
+        $team = $this->request->getQuery('team');
         $type = $this->request->getQuery('type');
         $printed = $this->request->getQuery('printed');
         $status = $this->request->getQuery('status');
@@ -61,15 +59,9 @@ class ParticipantsController extends AppController
         if (!empty($gender)) {
             $conditions['gender'] = $gender;
         }
-        if (!empty($occupation)) {
-            $conditions['occupation LIKE'] = '%' . $occupation . '%';
+        if (!empty($team)) {
+            $conditions['team LIKE'] = '%' . $team . '%';
         }
-        // if (!empty($skills)) {
-        //     $conditions['skills LIKE'] = '%' . $skills . '%';
-        // }
-        // if (!empty($technologies)) {
-        //     $conditions['technologies LIKE'] = '%' . $technologies . '%';
-        // }
         if (!empty($type)) {
             $conditions['type'] = $type;
         }
@@ -84,7 +76,7 @@ class ParticipantsController extends AppController
                     'fields' => [
                         'id',
                         'name', 'email', 'mobile', 'qr',
-                        'gender', 'occupation', 'skills', 'technologies',
+                        'gender','team',
                         'type', 'printed', 'status'
                     ],
                     'contain' => []
@@ -118,11 +110,12 @@ class ParticipantsController extends AppController
         $participant = $this->Participants->newEntity();
         if ($this->request->is('post')) {
             $data['error'] = 0;
-
+            
             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
             $participant->created_by = $this->Auth->user('id');
+           // dd($participant);
             if (!$this->Participants->save($participant)) {
                 $data['error'] = 1;
                 $data['message'] = 'El Participante no se pudo registrar. Verifique los datos e inténtelo nuevamente';
@@ -151,7 +144,7 @@ class ParticipantsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data['error'] = 0;
-
+            //dd($this->request->getData());
             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
             $participant->name = mb_strtoupper($participant->name);
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
@@ -189,7 +182,7 @@ class ParticipantsController extends AppController
     public function credentials ($ids = null) {
         if (empty($ids)) {
             $participants = $this->Participants->find('all', [
-                'fields' => ['id', 'name', 'type','qr'],
+                'fields' => ['id', 'name', 'type','qr','team'],
                 'conditions' => [
                     'status' => 'A',
                     'printed' => 'N'

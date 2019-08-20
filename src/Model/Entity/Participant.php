@@ -9,10 +9,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $team
  * @property float $mobile
  * @property string $qr
  * @property string $gender
- * @property string $occupation
  * @property string $skills
  * @property string $technologies
  * @property string $type
@@ -38,10 +38,10 @@ class Participant extends Entity
     protected $_accessible = [
         'name' => true,
         'email' => true,
+        'team' => true,
         'mobile' => true,
         'qr' => true,
         'gender' => true,
-        'occupation' => true,
         'skills' => true,
         'technologies' => true,
         'type' => true,

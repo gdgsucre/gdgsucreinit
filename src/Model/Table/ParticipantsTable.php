@@ -48,8 +48,8 @@ class ParticipantsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('name')
@@ -62,22 +62,24 @@ class ParticipantsTable extends Table
             ->allowEmpty('email');
 
         $validator
+            ->scalar('team')
+            ->maxLength('team', 50)
+            ->allowEmpty('team');
+
+        $validator
             ->decimal('mobile')
-            ->requirePresence('mobile', 'create');
+            ->requirePresence('mobile', 'create')
+            ->notEmpty('mobile');
 
         $validator
             ->scalar('qr')
-            ->maxLength('qr', 240);
+            ->maxLength('qr', 240)
+            ->allowEmpty('qr');
 
         $validator
             ->scalar('gender')
             ->maxLength('gender', 1)
             ->allowEmpty('gender');
-
-        $validator
-            ->scalar('occupation')
-            ->maxLength('occupation', 180)
-            ->requirePresence('occupation', 'create');
 
         $validator
             ->scalar('skills')
@@ -123,7 +125,8 @@ class ParticipantsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        // $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['id']));
 
         return $rules;
     }
