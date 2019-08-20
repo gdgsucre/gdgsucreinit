@@ -41,11 +41,10 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        // $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
 
-        $this->loadComponent('RequestHandler', [
-            'enableBeforeRedirect' => false,
-        ]);
+        $this->loadComponent('RequestHandler');
+
         $this->loadComponent('Flash');
 
         $this->loadComponent('Auth', [
@@ -74,8 +73,8 @@ class AppController extends Controller
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
-        // $this->loadComponent('Security');
-        // $this->loadComponent('Csrf');
+        $this->loadComponent('Security');
+        $this->loadComponent('Csrf');
     }
 
     public function beforeRender(Event $event)
@@ -85,7 +84,7 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event)
     {
-        // $this->Security->requireSecure();
+        $this->Security->requireSecure();
         $this->set('auth', $this->Auth);
 
         // if ($this->request->param('action') === 'index') {
@@ -99,10 +98,10 @@ class AppController extends Controller
         $this->Auth->allow(['logout', 'profile', 'certificate']);
     }
 
-    // public function forceSSL()
-    // {
-    //     return $this->redirect('https://' . env('SERVER_NAME') . $this->request->getRequestTarget());
-    // }
+    public function forceSSL()
+    {
+        return $this->redirect('https://' . env('SERVER_NAME') . $this->request->getRequestTarget());
+    }
 
     public function isAuthorized($user = null) {
         if (in_array($user['role_id'], [1, 2])) {
