@@ -68,6 +68,11 @@ echo $this->Form->end();
                     width: 200
                 },
                 {
+                    label: 'Ci',
+                    name: 'ci',
+                    width: 200
+                },
+                {
                     label: 'Team',
                     name: 'team',
                     width: 200

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -14,7 +15,8 @@ use Cake\Core\Configure;
 class ParticipantsController extends AppController
 {
 
-    public function index() {
+    public function index()
+    {
         $type = ':[Todos];P:Participante;T:Tutor;O:Organizador';
         $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
         $gender = ':[Todos];F:Femenino;M:Masculino';
@@ -27,9 +29,10 @@ class ParticipantsController extends AppController
      *
      * @return \Cake\Http\Response|json
      */
-    public function data() {
+    public function data()
+    {
         $name = $this->request->getQuery('name');
-        $email = $this->request->getQuery('email');
+        $ci = $this->request->getQuery('ci');
         $mobile = $this->request->getQuery('mobile');
         $qr = $this->request->getQuery('qr');
         $gender = $this->request->getQuery('gender');
@@ -47,8 +50,8 @@ class ParticipantsController extends AppController
         if (!empty($name)) {
             $conditions['name LIKE'] = '%' . $name . '%';
         }
-        if (!empty($email)) {
-            $conditions['email LIKE'] = '%' . $email . '%';
+        if (!empty($ci)) {
+            $conditions['ci'] = $ci;
         }
         if (!empty($mobile)) {
             $conditions['mobile'] = $mobile;
@@ -73,14 +76,15 @@ class ParticipantsController extends AppController
         }
 
         $query = $this->Participants->find('all', [
-                    'fields' => [
-                        'id',
-                        'name', 'email', 'mobile', 'qr',
-                        'gender','team',
-                        'type', 'printed', 'status'
-                    ],
-                    'contain' => []
-                ])->where($conditions);
+            'fields' => [
+                'id',
+                'name', 'email', 'mobile', 'qr',
+                'ci',
+                'gender', 'team',
+                'type', 'printed', 'status'
+            ],
+            'contain' => []
+        ])->where($conditions);
 
         try {
             $rows = $this->paginate($query, [
@@ -106,19 +110,21 @@ class ParticipantsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add()
+    {
         $participant = $this->Participants->newEntity();
         if ($this->request->is('post')) {
             $data['error'] = 0;
-            
             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+            $participant->name = mb_strtoupper($participant->name);
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
             $participant->created_by = $this->Auth->user('id');
-           // dd($participant);
-            if (!$this->Participants->save($participant)) {
+            $save = $this->Participants->save($participant);
+            if (!$save) {
                 $data['error'] = 1;
                 $data['message'] = 'El Participante no se pudo registrar. Verifique los datos e inténtelo nuevamente';
+                $data['errors'] = $participant->errors();
             }
 
             $this->response->type('json');
@@ -138,13 +144,13 @@ class ParticipantsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         $participant = $this->Participants->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data['error'] = 0;
-            //dd($this->request->getData());
             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
             $participant->name = mb_strtoupper($participant->name);
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
@@ -153,6 +159,7 @@ class ParticipantsController extends AppController
             if (!$this->Participants->save($participant)) {
                 $data['error'] = 1;
                 $data['message'] = 'El Participante no se pudo modificar. Verifique los datos e inténtelo nuevamente';
+                $data['errors'] = $participant->errors();
             }
 
             $this->response->type('json');
@@ -166,23 +173,41 @@ class ParticipantsController extends AppController
     }
 
 
-    public function profile(){
+    public function profile()
+    {
         $qr_hash = $this->request->getParam('qr_hash');
-
-        $colors = ["primary","danger","success","info","warning"];
-
         $participant = $this->Participants->find('all', [
             'conditions' => ['qr' => $qr_hash]
         ])->first();
 
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $participant = $this->Participants->find('all', [
+                'conditions' => ['ci' => $this->request->getData('ci')]
+            ])->first();
+            //dd($participant);
+            if($participant){
+                $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+                $participant->validate = true;
+                $participant->qr = $qr_hash;
+                if (!$this->Participants->save($participant)) {
+                    return $this->redirect(['action' => 'qr',$qr_hash]);
+                }else{
+                    $this->Flash->error(__('Error, el ci no es valido'));
+                }
+            }else{
+                $this->Flash->error(__('Error, el ci no es valido'));
+            }
+        } 
+
         $this->set('participant', $participant);
-        $this->set('colors', $colors);
+        $this->set('qr_hash', $qr_hash);
     }
 
-    public function credentials ($ids = null) {
+    public function credentials($ids = null)
+    {
         if (empty($ids)) {
             $participants = $this->Participants->find('all', [
-                'fields' => ['id', 'name', 'type','qr','team'],
+                'fields' => ['id', 'name', 'type', 'qr', 'team'],
                 'conditions' => [
                     'status' => 'A',
                     'printed' => 'N'
@@ -226,13 +251,13 @@ class ParticipantsController extends AppController
                 ['id' => $participant->id]
             );
         }
-        
     }
 
-    public function certificate () {
+    public function certificate()
+    {
         $qr = $this->request->getParam('qr');
         $participant = $this->Participants->find('all', [
-            'fields' => ['qr', 'name','type'],
+            'fields' => ['qr', 'name', 'type'],
             'conditions' => [
                 'qr' => $qr,
                 'status' => 'A'
@@ -247,7 +272,8 @@ class ParticipantsController extends AppController
     }
 
 
-    public function qrFix () {
+    public function qrFix()
+    {
         $participants = $this->Participants->find('all');
 
         foreach ($participants as $participant) {
@@ -256,6 +282,6 @@ class ParticipantsController extends AppController
                 ['id' => $participant->id]
             );
         }
-exit;
+        exit;
     }
 }

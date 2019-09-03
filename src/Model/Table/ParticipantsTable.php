@@ -62,8 +62,12 @@ class ParticipantsTable extends Table
             ->allowEmpty('email');
 
         $validator
+            ->integer('ci')
+            ->allowEmpty('ci');
+
+        $validator
             ->scalar('team')
-            ->maxLength('team', 50)
+            ->maxLength('team', 90)
             ->allowEmpty('team');
 
         $validator
@@ -82,14 +86,6 @@ class ParticipantsTable extends Table
             ->allowEmpty('gender');
 
         $validator
-            ->scalar('skills')
-            ->allowEmpty('skills');
-
-        $validator
-            ->scalar('technologies')
-            ->allowEmpty('technologies');
-
-        $validator
             ->scalar('type')
             ->maxLength('type', 1)
             ->allowEmpty('type');
@@ -103,6 +99,10 @@ class ParticipantsTable extends Table
             ->scalar('status')
             ->maxLength('status', 1)
             ->allowEmpty('status');
+
+        $validator
+            ->boolean('validate')
+            ->allowEmpty('validate');
 
         $validator
             ->integer('created_by')

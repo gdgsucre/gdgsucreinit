@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('email', ['label' => 'Correo electrónico']); ?>
+                    <?php echo $this->Form->input('ci', ['label' => 'CI']); ?>
                 </div>
                 <div class="col-md-6">
                     <?php echo $this->Form->input('mobile', ['label' => 'Teléfono Móvil']); ?>
@@ -73,10 +73,12 @@
                     data: $('#formNewParticipant form').serialize(),
                     success: function (response)
                     {
+                        console.log(response);
                         if (response.error == 0) {
                             $('#modalParticipants').modal('hide');
                             $('#jqgParticipants').trigger('reloadGrid');
                         } else {
+
                             alert(response.message);
                         }
                     }

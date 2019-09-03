@@ -218,10 +218,10 @@ if (Configure::read('debug')) {
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Configure::write('Theme', [
-    'title' => 'Girls Power Tech(2019)',
+    'title' => 'BoliviaRobotics(2019)',
     'logo' => [
-        'mini' => '<b>Girls Power Tech</b>',
-        'large' => '<b>Girls Power Tech</b>'
+        'mini' => '<b>BoliviaRobotics</b>',
+        'large' => '<b>BoliviaRobotics</b>'
     ],
     'login' => [
         'show_remember' => false,

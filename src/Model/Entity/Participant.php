@@ -9,15 +9,15 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property int $ci
  * @property string $team
  * @property float $mobile
  * @property string $qr
  * @property string $gender
- * @property string $skills
- * @property string $technologies
  * @property string $type
  * @property string $printed
  * @property string $status
+ * @property bool $validate
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $created_by
@@ -38,15 +38,15 @@ class Participant extends Entity
     protected $_accessible = [
         'name' => true,
         'email' => true,
+        'ci' => true,
         'team' => true,
         'mobile' => true,
         'qr' => true,
         'gender' => true,
-        'skills' => true,
-        'technologies' => true,
         'type' => true,
         'printed' => true,
         'status' => true,
+        'validate' => true,
         'created' => true,
         'modified' => true,
         'created_by' => true,
