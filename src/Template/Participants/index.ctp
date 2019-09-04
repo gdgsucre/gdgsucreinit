@@ -77,11 +77,6 @@ echo $this->Form->end();
                     name: 'team',
                     width: 200
                 },
-                // {
-                //     label: 'Teléfono Móvil',
-                //     name: 'mobile',
-                //     width: 120
-                // },
                 {
                     label: 'Género',
                     name: 'gender',
@@ -90,21 +85,14 @@ echo $this->Form->end();
                     searchoptions: {value: "<?php echo $gender; ?>"},
                     formatter: genderFormatter
                 },
-                // {
-                //     label: 'Ocupación',
-                //     name: 'occupation',
-                //     width: 120
-                // },
-                // {
-                //     label: 'Aptitudes',
-                //     name: 'skills',
-                //     width: 200
-                // },
-                // {
-                //     label: 'Tecnologías utilizadas',
-                //     name: 'technologies',
-                //     width: 200
-                // },
+                {
+                    label: 'Validado',
+                    name: 'validate',
+                    width: 120,
+                    stype: "select",
+                    searchoptions: {value: "<?php echo $validate; ?>"},
+                    formatter: yesOrNotFormatter
+                },
                 {
                     label: 'Tipo',
                     name: 'type',

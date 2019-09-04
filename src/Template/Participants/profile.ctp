@@ -1,4 +1,7 @@
-<?php $this->layout = 'profile'; ?>
+<?php 
+$this->layout = 'profile'; 
+?>
+
 <section class="container">
     <div class="row">
 
@@ -21,11 +24,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <?php echo $this->Form->input('ci', ['label' => 'Ingrese CI']); ?>
+                                <?php echo $this->Form->input('qr', ['type'=>'hidden', 'value' => $qr_hash]); ?>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success btn-block"><i class="fa fa-save"></i> Validar</button>
                         <?= $this->Form->end() ?>
                     <?php } ?>
+                    <p class="text-center">Si tiene alguna duda comunicarse vía Telegram o Whatsapp <a href="tel:+65257719">65257719</a> </p>
                 </div>
                 <!-- /.box-body -->
             </div>

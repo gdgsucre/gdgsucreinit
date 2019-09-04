@@ -21,7 +21,8 @@ class ParticipantsController extends AppController
         $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
         $gender = ':[Todos];F:Femenino;M:Masculino';
         $status = ':[Todos];A:Activo;I:Inactivo';
-        $this->set(compact('type', 'printed', 'gender', 'status'));
+        $validate = ':[Todos];1:Si;0:No';
+        $this->set(compact('type', 'printed', 'gender', 'status', 'validate'));
     }
 
     /**
@@ -40,6 +41,7 @@ class ParticipantsController extends AppController
         $type = $this->request->getQuery('type');
         $printed = $this->request->getQuery('printed');
         $status = $this->request->getQuery('status');
+        $validate = $this->request->getQuery('validate');
 
         $limit = $this->request->getQuery('rows');
         $page = $this->request->getQuery('page');
@@ -74,13 +76,16 @@ class ParticipantsController extends AppController
         if (!empty($status)) {
             $conditions['status'] = $status;
         }
+        if (!empty($validate)) {
+            $conditions['validate'] = (bool) $validate;
+        }
+
 
         $query = $this->Participants->find('all', [
             'fields' => [
                 'id',
                 'name', 'email', 'mobile', 'qr',
-                'ci',
-                'gender', 'team',
+                'ci', 'gender', 'team', 'validate',
                 'type', 'printed', 'status'
             ],
             'contain' => []
@@ -177,30 +182,31 @@ class ParticipantsController extends AppController
     {
         $qr_hash = $this->request->getParam('qr_hash');
         $participant = $this->Participants->find('all', [
-            'conditions' => ['qr' => $qr_hash]
+            'conditions' => [
+                'qr' => $qr_hash,
+            ],
         ])->first();
-
         if ($this->request->is(['patch', 'post', 'put'])) {
+
             $participant = $this->Participants->find('all', [
-                'conditions' => ['ci' => $this->request->getData('ci')]
+                'conditions' => [
+                    'ci' => $this->request->getData('ci')
+                ]
             ])->first();
-            //dd($participant);
-            if($participant){
+            if (!empty($participant)) {
                 $participant = $this->Participants->patchEntity($participant, $this->request->getData());
                 $participant->validate = true;
-                $participant->qr = $qr_hash;
-                if (!$this->Participants->save($participant)) {
-                    return $this->redirect(['action' => 'qr',$qr_hash]);
-                }else{
-                    $this->Flash->error(__('Error, el ci no es valido'));
+                $save = $this->Participants->save($participant);
+                if ($save) {
+                    $this->Flash->success(__('Ci, validado'));
+                    return $this->redirect('/qr/'. $save->qr);
                 }
-            }else{
+            } else {
                 $this->Flash->error(__('Error, el ci no es valido'));
             }
-        } 
+        }
 
-        $this->set('participant', $participant);
-        $this->set('qr_hash', $qr_hash);
+        $this->set(compact('participant', 'qr_hash'));
     }
 
     public function credentials($ids = null)
@@ -264,24 +270,22 @@ class ParticipantsController extends AppController
             ]
         ])->first();
         $this->set('participant', $participant);
-        // echo debug($participant); exit;
-
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
         $this->render('/Participants/pdf/certificate');
     }
 
 
-    public function qrFix()
-    {
-        $participants = $this->Participants->find('all');
+    // public function qrFix()
+    // {
+    //     $participants = $this->Participants->find('all');
 
-        foreach ($participants as $participant) {
-            $this->Participants->updateAll(
-                ['qr' => md5(Configure::Read('Security.salt') . $participant->id)],
-                ['id' => $participant->id]
-            );
-        }
-        exit;
-    }
+    //     foreach ($participants as $participant) {
+    //         $this->Participants->updateAll(
+    //             ['qr' => md5(Configure::Read('Security.salt') . $participant->id)],
+    //             ['id' => $participant->id]
+    //         );
+    //     }
+    //     exit;
+    // }
 }

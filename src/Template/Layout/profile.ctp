@@ -46,7 +46,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition login-page">
-
+<p> <?php echo $this->Flash->render(); ?> </p>
 <?php echo $this->fetch('content'); ?>
     <!-- /.login-box -->
 
@@ -63,6 +63,9 @@
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
+        setTimeout(function() {
+            $(".alert").hide('fast');
+        }, 4000);
     });
 </script>
 </body>

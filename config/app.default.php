@@ -64,7 +64,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
+        'salt' => env('SECURITY_SALT', 'b503ffc236433be87953b3bd492f5be9db841a7ad09ce542507f5d53c7240072'),
     ],
 
     /**
@@ -112,7 +112,7 @@ return [
          */
         '_cake_model_' => [
             'className' => 'File',
-            'prefix' => 'myapp_cake_model_',
+            'prefix'     => 'myapp_cake_model_',
             'path' => CACHE . 'models/',
             'serialize' => true,
             'duration' => '+1 years',
@@ -229,9 +229,9 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'adminITG',
+            'password' => 'my5QL.$.#',
+            'database' => 'boliviarobotics',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
@@ -269,9 +269,9 @@ return [
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'test_myapp',
+            'username' => 'root',
+            'password' => 'password',
+            'database' => 'gpt',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'cacheMetadata' => true,
