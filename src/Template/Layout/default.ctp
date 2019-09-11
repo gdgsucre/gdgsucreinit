@@ -46,9 +46,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
     <link rel="manifest" href="./manifest.json">
-    <meta name="msapplication-TileColor" content="#ff003fdb">
+    <meta name="msapplication-TileColor" content="#33d6ad">
     <meta name="msapplication-TileImage" content="./ms-icon-144x144.png">
-    <meta name="theme-color" content="#ff003fdb">
+    <meta name="theme-color" content="#33d6ad">
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">

@@ -34,9 +34,9 @@
     <link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
     <link rel="manifest" href="../manifest.json">
-    <meta name="msapplication-TileColor" content="#ff003fdb">
+    <meta name="msapplication-TileColor" content="#33d6ad">
     <meta name="msapplication-TileImage" content="../ms-icon-144x144.png">
-    <meta name="theme-color" content="#ff003fdb">
+    <meta name="theme-color" content="#33d6ad">
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

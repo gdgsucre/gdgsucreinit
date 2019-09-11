@@ -18,7 +18,7 @@ $this->layout = 'profile';
                     <p class="text-muted text-center"><?=  $participant->team;?></p>
                     <hr>
 
-                    <!-- <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a> -->
+                    <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a>
                     <?php } else { ?>
                         <?= $this->Form->create($participant, ['id' => 'participant']) ?>
                         <div class="row">

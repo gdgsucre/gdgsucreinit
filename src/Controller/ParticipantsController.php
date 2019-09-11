@@ -17,7 +17,7 @@ class ParticipantsController extends AppController
 
     public function index()
     {
-        $type = ':[Todos];P:Participante;T:Tutor;O:Organizador';
+        $type = ':[Todos];P:First Global;T:Tutor;O:Organizador;L:Line Follower';
         $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
         $gender = ':[Todos];F:Femenino;M:Masculino';
         $status = ':[Todos];A:Activo;I:Inactivo';

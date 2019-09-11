@@ -25,6 +25,8 @@ function typeFormatter(cellValue, options, rowObject) {
         return 'Expositor';
     } else if (cellValue == 'T') {
         return 'Tutor';
+    } else if (cellValue == 'L') {
+        return 'Line Follower';
     }
     else if (cellValue == 'O') {
         return 'Organizador';
@@ -46,7 +48,7 @@ function printedFormatter(cellValue, options, rowObject) {
 function yesOrNotFormatter(cellValue, options, rowObject) {
     if (cellValue == true) {
         return "<span class='label label-success'>Si</span>";
-    }else{
+    } else {
         return "<span class='label label-warning'>No</span>";
     }
 }

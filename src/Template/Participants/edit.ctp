@@ -40,7 +40,7 @@
                     <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'T' => 'Tutor', 'O' => 'Organizador'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'T' => 'Tutor', 'O' => 'Organizador', 'L' => 'Line Follower'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
             </div>
             <div class="row">
@@ -57,6 +57,11 @@
                             <input type="checkbox" name="status" class="icheck" value="A" checked> Activo
                         </label>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php echo $this->Form->input('qr', ['label' => 'QR', 'readonly' => true]); ?>
                 </div>
             </div>
         </div>

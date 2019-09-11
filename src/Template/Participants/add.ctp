@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Participant $participant
@@ -30,13 +31,14 @@
                     <?php echo $this->Form->input('mobile', ['label' => 'Teléfono Móvil']); ?>
                 </div>
             </div>
-            <?php // echo $this->Form->input('qr', ['label' => 'QR Hash']); ?>
+            <?php // echo $this->Form->input('qr', ['label' => 'QR Hash']); 
+            ?>
             <div class="row">
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino','O' => 'Otro'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino', 'O' => 'Otro'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
                 <div class="col-md-6">
-                <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'T' => 'Tutor', 'O' => 'Organizador'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'T' => 'Tutor', 'O' => 'Organizador', 'L' => 'Line Follower'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
             </div>
             <div class="row">
@@ -64,15 +66,14 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#formNewParticipant form').submit(function (e) {
+    $(document).ready(function() {
+        $('#formNewParticipant form').submit(function(e) {
             if ($("#participant").valid()) {
                 $.ajax({
                     type: 'POST',
                     url: '<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'add']); ?>',
                     data: $('#formNewParticipant form').serialize(),
-                    success: function (response)
-                    {
+                    success: function(response) {
                         console.log(response);
                         if (response.error == 0) {
                             $('#modalParticipants').modal('hide');
