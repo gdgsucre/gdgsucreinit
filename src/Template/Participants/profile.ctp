@@ -20,9 +20,9 @@ $this->layout = 'profile';
                         <?php
                             foreach ($participant->types as $type) :
                                 ?>
-                            <!-- <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr . '?type=' . $type->alias); ?>" target="_blank" class="btn btn-info btn-block"><i class="fa fa-certificate"></i> <b>Certificado <?= mb_strtoupper($type->name); ?></b></a> -->
+                            <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr . '?type=' . $type->alias); ?>" target="_blank" class="btn btn-info btn-block"><i class="fa fa-certificate"></i> <b>Certificado <?= mb_strtoupper($type->name); ?></b></a>
                             
-                            <!-- <hr> -->
+                            <hr>
                         <?php
                             endforeach;
                             ?>
