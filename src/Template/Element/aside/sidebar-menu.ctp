@@ -10,17 +10,24 @@ use App\Utils\Constants;
         </a>
     </li>
     <?php if ($auth->user('role_id') == 1) { ?>
-    <li>
-        <a href="<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'index']); ?>">
-            <i class="fa fa-users"></i> <span>Participantes</span>
-        </a>
-    </li>
+        <li>
+            <a href="<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'index']); ?>">
+                <i class="fa fa-users"></i> <span>Participantes</span>
+            </a>
+        </li>
     <?php } ?>
     <?php if ($auth->user('role_id') == 1) { ?>
-    <li>
-        <a href="<?php echo $this->Url->build(['controller' => 'users', 'action' => 'index']); ?>">
-            <i class="fa fa-users"></i> <span>Usuarios</span>
-        </a>
-    </li>
+        <li>
+            <a href="<?php echo $this->Url->build(['controller' => 'users', 'action' => 'index']); ?>">
+                <i class="fa fa-users"></i> <span>Usuarios</span>
+            </a>
+        </li>
+    <?php } ?>
+    <?php if ($auth->user('role_id') == 1) { ?>
+        <li>
+            <a href="<?php echo $this->Url->build(['controller' => 'types', 'action' => 'index']); ?>">
+                <i class="fa fa-users"></i> <span>Tipos de participantes</span>
+            </a>
+        </li>
     <?php } ?>
 </ul>

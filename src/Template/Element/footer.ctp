@@ -21,7 +21,8 @@ $this->Html->script([
     'AdminLTE./plugins/datepicker/locales/bootstrap-datepicker.es',
     'AdminLTE./plugins/select2/select2.min',
     'AdminLTE./plugins/iCheck/icheck.min',
-    'custom'
+    'custom',
+    'validator'
 ],
 ['block' => 'script']);
 

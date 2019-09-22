@@ -56,6 +56,25 @@ CREATE TABLE participants (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE types(
+    id serial NOT NULL,
+    name character varying(30) NOT NULL,
+    alias character varying(30) NOT NULL,
+    created datetime NOT NULL,
+    modified datetime,
+    created_by integer NOT NULL,
+    modified_by integer,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE types_participants (
+    id serial NOT NULL,
+    type_id integer NOT NULL REFERENCES types(id),
+    participant_id integer NOT NULL REFERENCES participants(id),
+    PRIMARY KEY (id),
+    UNIQUE (type_id, participant_id)
+);
+
 CREATE TABLE logs_accesses
 (
     id serial NOT NULL,
