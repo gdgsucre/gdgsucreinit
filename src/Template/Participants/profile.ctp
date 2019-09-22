@@ -16,7 +16,6 @@ $this->layout = 'profile';
                         <h3 class="profile-username text-center"><?= $participant->name; ?></h3>
 
                         <p class="text-muted text-center"><?= $participant->team; ?></p>
-                        <p>Estamos arreglando algunas cosillas, lo siento, intenta mas tarde ; )</p>
                         <?php
                             foreach ($participant->types as $type) :
                                 ?>
