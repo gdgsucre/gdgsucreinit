@@ -102,6 +102,13 @@ echo $this->Form->end();
                     formatter: typeFormatter
                 },
                 {
+                    label: 'Tipos',
+                    name: 'types',
+                    width: 100,
+                    formatter: typesFormatter,
+                    search: false
+                },
+                {
                     label: '¿Impreso?',
                     name: 'printed',
                     width: 100,

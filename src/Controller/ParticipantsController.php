@@ -83,12 +83,8 @@ class ParticipantsController extends AppController
 
         $query = $this->Participants->find('all', [
             'fields' => [
-                'id',
-                'name', 'email', 'mobile', 'qr',
-                'ci', 'gender', 'team', 'validate',
-                'type2', 'printed', 'status'
             ],
-            'contain' => []
+            'contain' => ['Types']
         ])->where($conditions);
 
         try {

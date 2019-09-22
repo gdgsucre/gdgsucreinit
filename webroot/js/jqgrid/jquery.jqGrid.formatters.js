@@ -52,3 +52,17 @@ function yesOrNotFormatter(cellValue, options, rowObject) {
         return "<span class='label label-warning'>No</span>";
     }
 }
+
+function typesFormatter(cellValue, options, rowObject) {
+    var typesString = "";
+    var count = 1;
+    cellValue.forEach(types => {
+        if(cellValue.length == count){
+            typesString += types.name;
+        }else{
+            typesString += types.name+', ';
+        }
+        count ++;
+    });
+    return typesString;
+}
