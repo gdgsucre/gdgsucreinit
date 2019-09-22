@@ -16,17 +16,17 @@ $this->layout = 'profile';
                         <h3 class="profile-username text-center"><?= $participant->name; ?></h3>
 
                         <p class="text-muted text-center"><?= $participant->team; ?></p>
-
+                        <p>Estamos arreglando algunas cosillas, lo siento, intenta mas tarde ; )</p>
                         <?php
                             foreach ($participant->types as $type) :
-                        ?>
-                            <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr.'?type='.$type->alias); ?>" target="_blank" class="btn btn-info btn-block"><i class="fa fa-certificate"></i> <b>Certificado <?= mb_strtoupper($type->name); ?></b></a>
-                            <hr>
+                                ?>
+                            <!-- <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr . '?type=' . $type->alias); ?>" target="_blank" class="btn btn-info btn-block"><i class="fa fa-certificate"></i> <b>Certificado <?= mb_strtoupper($type->name); ?></b></a> -->
+                            
+                            <!-- <hr> -->
                         <?php
                             endforeach;
-                        ?>
+                            ?>
 
-                        <!-- <a href="<?php echo $this->Url->build('/certificate/' . $participant->qr); ?>" target="_blank" class="btn btn-primary btn-block"><i class="fa fa-certificate"></i> <b>Ver Certificado</b></a> -->
                     <?php } else { ?>
                         <?= $this->Form->create($participant, ['id' => 'participant']) ?>
                         <div class="row">
@@ -40,7 +40,6 @@ $this->layout = 'profile';
                     <?php } ?>
                     <p class="text-center">Si tiene alguna duda comunicarse vía Telegram o Whatsapp <a href="tel:+65257719">65257719</a> </p>
                 </div>
-                <!-- /.box-body -->
             </div>
             <!-- /.box -->
         </div>
