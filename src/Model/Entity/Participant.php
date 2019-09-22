@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property float $mobile
  * @property string $qr
  * @property string $gender
- * @property string $type
+ * @property string $type2
  * @property string $printed
  * @property string $status
  * @property bool $validate
@@ -22,6 +22,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $created_by
  * @property int $modified_by
+ *
+ * @property \App\Model\Entity\Type[] $types
  */
 class Participant extends Entity
 {
@@ -43,13 +45,14 @@ class Participant extends Entity
         'mobile' => true,
         'qr' => true,
         'gender' => true,
-        'type' => true,
+        'type2' => true,
         'printed' => true,
         'status' => true,
         'validate' => true,
         'created' => true,
         'modified' => true,
         'created_by' => true,
-        'modified_by' => true
+        'modified_by' => true,
+        'types' => true
     ];
 }

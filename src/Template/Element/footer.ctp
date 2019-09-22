@@ -33,6 +33,7 @@ echo $this->Html->css([
     'AdminLTE./plugins/iCheck/all',
     //'bootstrap-datepicker',
     'AdminLTE./plugins/select2/select2.min',
+    'AdminLTE.AdminLTE.min',
     'custom'
 ],
 ['inline' => false]);

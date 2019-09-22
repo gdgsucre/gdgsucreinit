@@ -38,7 +38,7 @@ class ParticipantsController extends AppController
         $qr = $this->request->getQuery('qr');
         $gender = $this->request->getQuery('gender');
         $team = $this->request->getQuery('team');
-        $type = $this->request->getQuery('type');
+        $type2 = $this->request->getQuery('type2');
         $printed = $this->request->getQuery('printed');
         $status = $this->request->getQuery('status');
         $validate = $this->request->getQuery('validate');
@@ -67,8 +67,8 @@ class ParticipantsController extends AppController
         if (!empty($team)) {
             $conditions['team LIKE'] = '%' . $team . '%';
         }
-        if (!empty($type)) {
-            $conditions['type'] = $type;
+        if (!empty($type2)) {
+            $conditions['type2'] = $type2;
         }
         if (!empty($printed)) {
             $conditions['printed'] = $printed;
@@ -86,7 +86,7 @@ class ParticipantsController extends AppController
                 'id',
                 'name', 'email', 'mobile', 'qr',
                 'ci', 'gender', 'team', 'validate',
-                'type', 'printed', 'status'
+                'type2', 'printed', 'status'
             ],
             'contain' => []
         ])->where($conditions);
@@ -117,6 +117,7 @@ class ParticipantsController extends AppController
      */
     public function add()
     {
+        $this->loadModel('Types');
         $participant = $this->Participants->newEntity();
         if ($this->request->is('post')) {
             $data['error'] = 0;
@@ -136,9 +137,16 @@ class ParticipantsController extends AppController
             $this->response->body(json_encode($data));
             return $this->response;
         } else {
+            $types = $this->Types->find(
+                'list',
+                [
+                    'limit' => 200,
+                    'order' => 'name ASC'
+                ]
+            );
             $this->viewBuilder()->layout('ajax');
-            $this->set(compact('participant'));
-            $this->set('_serialize', ['participant']);
+            $this->set(compact('participant','types'));
+            $this->set('_serialize', ['participant','types']);
         }
     }
 
@@ -150,13 +158,18 @@ class ParticipantsController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {
+    {   
+        $this->loadModel('Types');
         $participant = $this->Participants->get($id, [
-            'contain' => []
+            'contain' => ['Types']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data['error'] = 0;
-            $participant = $this->Participants->patchEntity($participant, $this->request->getData());
+            $participant = $this->Participants->patchEntity($participant, $this->request->getData(), [
+                'associated' => [
+                    'Types'
+                ]
+            ]);
             $participant->name = mb_strtoupper($participant->name);
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
@@ -171,9 +184,16 @@ class ParticipantsController extends AppController
             $this->response->body(json_encode($data));
             return $this->response;
         } else {
+            $types = $this->Types->find(
+                'list',
+                [
+                    'limit' => 200,
+                    'order' => 'name ASC'
+                ]
+            );
             $this->viewBuilder()->layout('ajax');
-            $this->set(compact('participant'));
-            $this->set('_serialize', ['participant']);
+            $this->set(compact('participant','types'));
+            $this->set('_serialize', ['participant','types']);
         }
     }
 
@@ -182,6 +202,7 @@ class ParticipantsController extends AppController
     {
         $qr_hash = $this->request->getParam('qr_hash');
         $participant = $this->Participants->find('all', [
+            'contain' => ['Types'],
             'conditions' => [
                 'qr' => $qr_hash,
             ],
@@ -262,14 +283,18 @@ class ParticipantsController extends AppController
     public function certificate()
     {
         $qr = $this->request->getParam('qr');
+        $type = $this->request->getQuery('type');
+
         $participant = $this->Participants->find('all', [
-            'fields' => ['qr', 'name', 'type'],
+            'contain' => ['Types'],
+            'fields' => [],
             'conditions' => [
                 'qr' => $qr,
                 'status' => 'A'
             ]
         ])->first();
-        $this->set('participant', $participant);
+        // dd($participant);
+        $this->set(compact('participant', 'type'));
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
         $this->render('/Participants/pdf/certificate');

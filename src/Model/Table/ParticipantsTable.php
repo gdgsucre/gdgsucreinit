@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Participants Model
  *
+ * @property \App\Model\Table\TypesTable|\Cake\ORM\Association\BelongsToMany $Types
+ *
  * @method \App\Model\Entity\Participant get($primaryKey, $options = [])
  * @method \App\Model\Entity\Participant newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Participant[] newEntities(array $data, array $options = [])
@@ -33,10 +35,16 @@ class ParticipantsTable extends Table
         parent::initialize($config);
 
         $this->setTable('participants');
-        $this->setDisplayField('name');
+        $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsToMany('Types', [
+            'foreignKey' => 'participant_id',
+            'targetForeignKey' => 'type_id',
+            'joinTable' => 'types_participants'
+        ]);
     }
 
     /**
@@ -86,9 +94,9 @@ class ParticipantsTable extends Table
             ->allowEmpty('gender');
 
         $validator
-            ->scalar('type')
-            ->maxLength('type', 1)
-            ->allowEmpty('type');
+            ->scalar('type2')
+            ->maxLength('type2', 1)
+            ->allowEmpty('type2');
 
         $validator
             ->scalar('printed')

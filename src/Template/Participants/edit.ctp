@@ -40,7 +40,15 @@
                     <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
                 </div>
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('type', ['label' => 'Tipo', 'empty' => '- Seleccione -', 'options' => ['P' => 'Participante', 'T' => 'Tutor', 'O' => 'Organizador', 'L' => 'Line Follower'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
+                    <?php echo $this->Form->control('types._ids', [
+                        'label' => 'Tipos',
+                        'options' => $types,
+                        'class' => 'form-control select2',
+                        'default' => $participant->types,
+                        'required' => true,
+                        'multiple' => true,
+                        'style' => 'width: 100%'
+                    ]);  ?>
                 </div>
             </div>
             <div class="row">
@@ -63,6 +71,7 @@
                 <div class="col-md-6">
                     <?php echo $this->Form->input('qr', ['label' => 'QR', 'readonly' => true]); ?>
                 </div>
+
             </div>
         </div>
         <div class="modal-footer">
@@ -73,6 +82,14 @@
     </div>
 </div>
 <script type="text/javascript">
+    $('#types-ids').select2({
+        language: {
+            noResults: function() {
+                return "No se encontró el Rol.";
+            }
+        },
+        tokenSeparators: [','],
+    });
     $(document).ready(function() {
         $('#formEditParticipant form').submit(function(e) {
             if ($("#participant").valid()) {

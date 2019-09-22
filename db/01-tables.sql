@@ -56,6 +56,9 @@ CREATE TABLE participants (
     PRIMARY KEY (id)
 );
 
+-- ALTER TABLE participants CHANGE type type2 char(1);
+-- ALTER TABLE participants DROP COLUMN types;
+
 CREATE TABLE types(
     id serial NOT NULL,
     name character varying(30) NOT NULL,

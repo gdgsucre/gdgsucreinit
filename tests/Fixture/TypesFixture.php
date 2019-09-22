@@ -45,8 +45,8 @@ class TypesFixture extends TestFixture
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
             'alias' => 'Lorem ipsum dolor sit amet',
-            'created' => '2019-09-22 17:05:07',
-            'modified' => '2019-09-22 17:05:07',
+            'created' => '2019-09-22 18:36:37',
+            'modified' => '2019-09-22 18:36:37',
             'created_by' => 1,
             'modified_by' => 1
         ],

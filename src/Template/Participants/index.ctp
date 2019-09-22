@@ -95,7 +95,7 @@ echo $this->Form->end();
                 },
                 {
                     label: 'Tipo',
-                    name: 'type',
+                    name: 'type2',
                     width: 100,
                     stype: "select",
                     searchoptions: {value: "<?php echo $type; ?>"},
