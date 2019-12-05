@@ -19,57 +19,12 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-md-6">
-                    <?php echo $this->Form->input('name', ['label' => 'Nombre']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $this->Form->input('mobile', ['label' => 'Teléfono Móvil']); ?>
+                <div class="col-md-12">
+                    <?php echo $this->Form->input('name', ['label' => 'Nombre', 'readonly' => true]); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <?php echo $this->Form->input('gender', ['label' => 'Género', 'empty' => '- Seleccione -', 'options' => ['F' => 'Femenino', 'M' => 'Masculino'], 'class' => 'form-control select2', 'style' => 'width: 100%']); ?>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $this->Form->control('type', [
-                        'label' => 'Tipos',
-                        'options' => $types,
-                        'class' => 'form-control select2',
-                        'required' => true,
-                        'style' => 'width: 100%'
-                    ]);  ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="printed" class="icheck" value="Y" <?php echo ($participant->printed == 'Y') ? 'checked' : ''; ?>> Impreso
-                        </label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="status" class="icheck" value="A" checked> Activo
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="is_qr" class="icheck" value="Y" > Cambiar qr
-                        </label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <?php echo $this->Form->input('qr', ['label' => 'QR']); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <?php echo $this->Form->input('points', ['label' => 'Puntos']); ?>
                 </div>
             </div>

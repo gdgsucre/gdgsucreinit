@@ -90,6 +90,10 @@ class ParticipantsTable extends Table
             ->notEmpty('qr');
 
         $validator
+            ->integer('points')
+            ->allowEmpty('points');
+
+        $validator
             ->scalar('gender')
             ->maxLength('gender', 1)
             ->allowEmpty('gender');

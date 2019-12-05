@@ -116,6 +116,7 @@ class UsersController extends AppController {
             if (!$this->Users->save($user)) {
                 $data['error'] = 1;
                 $data['message'] = 'El Usuario no se pudo registrar. Verifique los datos e inténtelo nuevamente';
+                $data['err'] = $user->errors();
             }
 
             $this->response->type('json');
@@ -229,7 +230,7 @@ class UsersController extends AppController {
         if ($this->request->param('action') === 'logout') {
             return true;
         }
-        return (bool)($user['role_id'] === 1);
+        // return (bool)($user['role_id'] === 1);
     }
 
 }

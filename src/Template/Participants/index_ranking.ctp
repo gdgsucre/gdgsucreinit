@@ -15,11 +15,8 @@
         <div class="col-md-12">
             <div class="box box-primary no-margin-bottom">
                 <div class="box-header with-border">
-                    <a class="btn btn-sm btn-success" data-toggle="modal" id="btnAddParticipant"><i class="fa fa-plus-circle"></i> Nuevo</a>
-                    <a class="btn btn-sm btn-warning" data-toggle="modal" id="btnEditParticipant"><i class="fa fa-edit"></i> Modificar</a>
+                    <a class="btn btn-sm btn-warning" data-toggle="modal" id="btnEditParticipant"><i class="fa fa-edit"></i> Puntos</a>
                     <!-- <a class="btn btn-sm btn-danger" data-toggle="modal" id="btnDeleteParticipant"><i class="fa fa-trash"></i> Borrar</a> -->
-
-                    <a class="btn btn-sm btn-primary pull-right" target="_blank" href="<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'credentials']); ?>"><i class="fa fa-print"></i> Imprimir</a>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -65,59 +62,13 @@ echo $this->Form->end();
                 {
                     label: 'Nombre',
                     name: 'name',
-                    width: 200
+                    width: 400
                 },
                 {
                     label: 'Puntos',
                     name: 'points',
                     width: 100
                 },
-                {
-                    label: 'Género',
-                    name: 'gender',
-                    width: 250,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $gender; ?>"},
-                    formatter: genderFormatter
-                },
-                {
-                    label: 'Validado',
-                    name: 'validate',
-                    width: 120,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $validate; ?>"},
-                    formatter: yesOrNotFormatter
-                },
-                {
-                    label: 'Tipos',
-                    name: 'type',
-                    width: 150,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $typesList; ?>"},
-                },
-                {
-                    label: 'QR',
-                    name: 'qr',
-                    width: 300,
-
-                },
-                {
-                    label: '¿Impreso?',
-                    name: 'printed',
-                    width: 150,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $printed; ?>"},
-                    formatter: printedFormatter
-                },
-                {
-                    label: "Estado",
-                    name: 'status',
-                    width: 150,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $status; ?>",defaultValue:'A'},
-                    formatter: statusFormatter,
-
-                }
             ],
             rowNum: 20,
             rowList: [10, 20, 30, 50],
@@ -155,20 +106,13 @@ echo $this->Form->end();
     });
 
     $(document).ready(function () {
-        /** Formulario Nuevo */
-        $('#btnAddParticipant').click(function () {
-            $('#modalParticipants').load('<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'add']); ?>', null,
-                    function () {
-                        $('#modalParticipants').modal('show');
-                    }
-            );
-        });
+
         /** Formulario Editar */
         $('#btnEditParticipant').click(function () {
             var row = jQuery('#jqgParticipants').jqGrid('getGridParam', 'selrow');
             rowId = jQuery('#jqgParticipants').jqGrid('getCell', row, 'id');
             if (rowId != null) {
-                $('#modalParticipants').load('<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'edit']); ?>/' + rowId, null,
+                $('#modalParticipants').load('<?php echo $this->Url->build(['controller' => 'participants', 'action' => 'editPoints']); ?>/' + rowId, null,
                         function () {
                             $('#modalParticipants').modal('show');
                         }

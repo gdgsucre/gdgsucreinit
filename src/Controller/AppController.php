@@ -95,7 +95,7 @@ class AppController extends Controller
             $this->getEventManager()->off($this->Csrf);
         }
 
-        $this->Auth->allow(['logout', 'profile', 'certificate']);
+        $this->Auth->allow(['logout', 'profile', 'certificate','listParticipants']);
     }
 
     public function forceSSL()
@@ -104,7 +104,7 @@ class AppController extends Controller
     }
 
     public function isAuthorized($user = null) {
-        if (in_array($user['role_id'], [1, 2])) {
+        if (in_array($user['role_id'], [1, 2,3])) {
             return true;
         }
 

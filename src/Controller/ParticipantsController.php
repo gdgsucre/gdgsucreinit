@@ -40,6 +40,31 @@ class ParticipantsController extends AppController
         $this->set(compact('type', 'printed', 'gender', 'status', 'validate', 'typesList'));
     }
 
+    public function indexRanking()
+    {
+        $this->loadModel('Types');
+        $type = ':[Todos];P:First Global;T:Tutor;O:Organizador;L:Line Follower';
+        $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
+        $gender = ':[Todos];F:Femenino;M:Masculino';
+        $status = ':[Todos];A:Activo;I:Inactivo';
+        $validate = ':[Todos];1:Si;0:No';
+        $types = $this->Types->find(
+            'list',
+            [
+                'limit' => 200,
+                'order' => 'name ASC',
+                'keyField' => 'name',
+                'valueField' => 'name'
+            ]
+        );
+        // dd($types->toArray());
+        $typesList = ':[Todos]';;
+        foreach ($types as $id => $name) {
+            $typesList .= ';' . $id . ':' . $name;
+        }
+        $this->set(compact('type', 'printed', 'gender', 'status', 'validate', 'typesList'));
+    }
+
     /**
      * Data method
      *
@@ -210,6 +235,38 @@ class ParticipantsController extends AppController
         }
     }
 
+        /**
+     * Edit method
+     *
+     * @param string|null $id Product id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function editPoints($id = null)
+    {
+        $this->loadModel('Types');
+        $participant = $this->Participants->get($id, [
+            'contain' => ['Types']
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data['error'] = 0;
+            $participant = $this->Participants->patchEntity($participant, $this->request->getData(), []);
+            $participant->modified_by = $this->Auth->user('id');
+            if (!$this->Participants->save($participant)) {
+                $data['error'] = 1;
+                $data['message'] = 'El Participante no se pudo modificar. Verifique los datos e inténtelo nuevamente';
+                $data['errors'] = $participant->errors();
+            }
+
+            $this->response->type('json');
+            $this->response->body(json_encode($data));
+            return $this->response;
+        } else {
+            $this->viewBuilder()->layout('ajax');
+            $this->set(compact('participant', 'types'));
+            $this->set('_serialize', ['participant']);
+        }
+    }
 
     public function profile()
     {
@@ -220,28 +277,21 @@ class ParticipantsController extends AppController
                 'qr' => $qr_hash,
             ],
         ])->first();
-        if ($this->request->is(['patch', 'post', 'put'])) {
-
-            $participant = $this->Participants->find('all', [
-                'conditions' => [
-                    'ci' => $this->request->getData('ci')
-                ]
-            ])->first();
-            if (!empty($participant)) {
-                $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-                $participant->validate = true;
-                $save = $this->Participants->save($participant);
-                if ($save) {
-                    $this->Flash->success(__('Ci, validado'));
-                    return $this->redirect('/qr/' . $save->qr);
-                }
-            } else {
-                $this->Flash->error(__('Error, el ci no es valido'));
-            }
-        }
-
         $this->set(compact('participant', 'qr_hash'));
     }
+
+    public function listParticipants()
+    {
+        $participants = $this->Participants->find('all', [
+            'conditions' => [
+                'type' => 'PARTICIPANT',
+            ],
+            'order' => ['points' => 'DESC'],
+        ]);
+        //dd($participants->toArray());
+        $this->set(compact('participants'));
+    }
+
 
     public function credentials($ids = null)
     {

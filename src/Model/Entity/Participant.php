@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string $team
  * @property float $mobile
  * @property string $qr
+ * @property int $points
  * @property string $gender
  * @property string $type
  * @property string $printed
@@ -44,6 +45,7 @@ class Participant extends Entity
         'team' => true,
         'mobile' => true,
         'qr' => true,
+        'points' => true,
         'gender' => true,
         'type' => true,
         'printed' => true,

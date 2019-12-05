@@ -48,6 +48,7 @@ CREATE TABLE participants (
     type character varying(30),
     printed character DEFAULT 'N',
     status character DEFAULT 'A',
+    points integer DEFAULT 0,
     validate boolean default false,
     created datetime NOT NULL,
     modified datetime,

@@ -35,6 +35,9 @@ class AccessController extends AppController {
                 $this->Users->updateAll(
                         ['last_access' => date('Y-m-d H:i:s'), 'last_ip' => $this->request->clientIp()], ['id' => $user['id']]
                 );
+                if( $user['role_id'] == 3){
+                    return $this->redirect(['controller' => 'participants', 'action' => 'index_ranking']);
+                }
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Nombre de usuario o contraseña incorrectos, inténtelo nuevamente'));

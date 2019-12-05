@@ -94,24 +94,10 @@
                 firstname: {
                     required: true,
                     maxlength: 60,
-                    latinLetters: true
                 },
                 lastname: {
                     required: true,
                     maxlength: 30,
-                    latinLetters: true
-                },
-                document: {
-                    required: true,
-                    numbersLatinLetters: true
-                },
-                email: {
-                    required: true,
-                    uniqueEmail: true
-                },
-                username: {
-                    required: true,
-                    maxlength: 30
                 },
                 password: {
                     required: true,
