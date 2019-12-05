@@ -45,7 +45,7 @@ CREATE TABLE participants (
     mobile numeric(8,0) NOT NULL,
     qr character varying(240) NOT NULL,
     gender character,
-    type character DEFAULT 'P',
+    type character varying(30),
     printed character DEFAULT 'N',
     status character DEFAULT 'A',
     validate boolean default false,

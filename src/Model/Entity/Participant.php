@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property float $mobile
  * @property string $qr
  * @property string $gender
- * @property string $type2
+ * @property string $type
  * @property string $printed
  * @property string $status
  * @property bool $validate
@@ -45,7 +45,7 @@ class Participant extends Entity
         'mobile' => true,
         'qr' => true,
         'gender' => true,
-        'type2' => true,
+        'type' => true,
         'printed' => true,
         'status' => true,
         'validate' => true,

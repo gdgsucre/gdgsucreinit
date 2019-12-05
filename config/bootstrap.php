@@ -218,10 +218,10 @@ if (Configure::read('debug')) {
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Configure::write('Theme', [
-    'title' => 'BoliviaRobotics(2019)',
+    'title' => 'DevFest(2019)',
     'logo' => [
-        'mini' => '<b>BoliviaRobotics</b>',
-        'large' => '<b>BoliviaRobotics</b>'
+        'mini' => '<b>DevFest 2019</b>',
+        'large' => '<b>DevFest 2019</b>'
     ],
     'login' => [
         'show_remember' => false,

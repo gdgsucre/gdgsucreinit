@@ -86,7 +86,8 @@ class ParticipantsTable extends Table
         $validator
             ->scalar('qr')
             ->maxLength('qr', 240)
-            ->allowEmpty('qr');
+            ->requirePresence('qr', 'create')
+            ->notEmpty('qr');
 
         $validator
             ->scalar('gender')
@@ -94,9 +95,9 @@ class ParticipantsTable extends Table
             ->allowEmpty('gender');
 
         $validator
-            ->scalar('type2')
-            ->maxLength('type2', 1)
-            ->allowEmpty('type2');
+            ->scalar('type')
+            ->maxLength('type', 30)
+            ->allowEmpty('type');
 
         $validator
             ->scalar('printed')

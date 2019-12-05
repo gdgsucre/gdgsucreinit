@@ -17,12 +17,27 @@ class ParticipantsController extends AppController
 
     public function index()
     {
+        $this->loadModel('Types');
         $type = ':[Todos];P:First Global;T:Tutor;O:Organizador;L:Line Follower';
         $printed = ':[Todos];Y:Impreso;N:Sin imprimir';
         $gender = ':[Todos];F:Femenino;M:Masculino';
         $status = ':[Todos];A:Activo;I:Inactivo';
         $validate = ':[Todos];1:Si;0:No';
-        $this->set(compact('type', 'printed', 'gender', 'status', 'validate'));
+        $types = $this->Types->find(
+            'list',
+            [
+                'limit' => 200,
+                'order' => 'name ASC',
+                'keyField' => 'name',
+                'valueField' => 'name'
+            ]
+        );
+        // dd($types->toArray());
+        $typesList = ':[Todos]';;
+        foreach ($types as $id => $name) {
+            $typesList .= ';' . $id . ':' . $name;
+        }
+        $this->set(compact('type', 'printed', 'gender', 'status', 'validate', 'typesList'));
     }
 
     /**
@@ -38,10 +53,11 @@ class ParticipantsController extends AppController
         $qr = $this->request->getQuery('qr');
         $gender = $this->request->getQuery('gender');
         $team = $this->request->getQuery('team');
-        $type2 = $this->request->getQuery('type2');
+        $type = $this->request->getQuery('type');
         $printed = $this->request->getQuery('printed');
         $status = $this->request->getQuery('status');
         $validate = $this->request->getQuery('validate');
+        $id = $this->request->getQuery('id');
 
         $limit = $this->request->getQuery('rows');
         $page = $this->request->getQuery('page');
@@ -49,11 +65,11 @@ class ParticipantsController extends AppController
         $sidx = $this->request->getQuery('sidx');
 
         $conditions = [];
+        if (!empty($id)) {
+            $conditions['id'] = $id;
+        }
         if (!empty($name)) {
             $conditions['name LIKE'] = '%' . $name . '%';
-        }
-        if (!empty($ci)) {
-            $conditions['ci'] = $ci;
         }
         if (!empty($mobile)) {
             $conditions['mobile'] = $mobile;
@@ -64,12 +80,10 @@ class ParticipantsController extends AppController
         if (!empty($gender)) {
             $conditions['gender'] = $gender;
         }
-        if (!empty($team)) {
-            $conditions['team LIKE'] = '%' . $team . '%';
+        if (!empty($type)) {
+            $conditions['type'] = $type;
         }
-        if (!empty($type2)) {
-            $conditions['type2'] = $type2;
-        }
+
         if (!empty($printed)) {
             $conditions['printed'] = $printed;
         }
@@ -82,9 +96,7 @@ class ParticipantsController extends AppController
 
 
         $query = $this->Participants->find('all', [
-            'fields' => [
-            ],
-            'contain' => ['Types']
+            'contain' => []
         ])->where($conditions);
 
         try {
@@ -118,10 +130,11 @@ class ParticipantsController extends AppController
         if ($this->request->is('post')) {
             $data['error'] = 0;
             $participant = $this->Participants->patchEntity($participant, $this->request->getData());
-            $participant->name = mb_strtoupper($participant->name);
+            $participant->name = mb_strtoupper(trim($participant->name));
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
             $participant->created_by = $this->Auth->user('id');
+            $participant->qr = md5(Configure::Read('Security.salt') . $participant->id);
             $save = $this->Participants->save($participant);
             if (!$save) {
                 $data['error'] = 1;
@@ -137,12 +150,14 @@ class ParticipantsController extends AppController
                 'list',
                 [
                     'limit' => 200,
-                    'order' => 'name ASC'
+                    'order' => 'name ASC',
+                    'keyField' => 'name',
+                    'valueField' => 'name'
                 ]
             );
             $this->viewBuilder()->layout('ajax');
-            $this->set(compact('participant','types'));
-            $this->set('_serialize', ['participant','types']);
+            $this->set(compact('participant', 'types'));
+            $this->set('_serialize', ['participant', 'types']);
         }
     }
 
@@ -154,19 +169,15 @@ class ParticipantsController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {   
+    {
         $this->loadModel('Types');
         $participant = $this->Participants->get($id, [
             'contain' => ['Types']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data['error'] = 0;
-            $participant = $this->Participants->patchEntity($participant, $this->request->getData(), [
-                'associated' => [
-                    'Types'
-                ]
-            ]);
-            $participant->name = mb_strtoupper($participant->name);
+            $participant = $this->Participants->patchEntity($participant, $this->request->getData(), []);
+            $participant->name = mb_strtoupper(trim($participant->name));
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
             $participant->modified_by = $this->Auth->user('id');
@@ -184,12 +195,14 @@ class ParticipantsController extends AppController
                 'list',
                 [
                     'limit' => 200,
-                    'order' => 'name ASC'
+                    'order' => 'name ASC',
+                    'keyField' => 'name',
+                    'valueField' => 'name'
                 ]
             );
             $this->viewBuilder()->layout('ajax');
-            $this->set(compact('participant','types'));
-            $this->set('_serialize', ['participant','types']);
+            $this->set(compact('participant', 'types'));
+            $this->set('_serialize', ['participant', 'types']);
         }
     }
 
@@ -216,7 +229,7 @@ class ParticipantsController extends AppController
                 $save = $this->Participants->save($participant);
                 if ($save) {
                     $this->Flash->success(__('Ci, validado'));
-                    return $this->redirect('/qr/'. $save->qr);
+                    return $this->redirect('/qr/' . $save->qr);
                 }
             } else {
                 $this->Flash->error(__('Error, el ci no es valido'));
@@ -261,7 +274,7 @@ class ParticipantsController extends AppController
                 'order' => ['id' => 'ASC']
             ]);
         }
-
+        //dd($participants->toArray());
         $this->viewBuilder()->layout('ajax');
         $this->response->type('pdf');
         $this->set('participants', $participants);
@@ -295,18 +308,4 @@ class ParticipantsController extends AppController
         $this->response->type('pdf');
         $this->render('/Participants/pdf/certificate');
     }
-
-
-    // public function qrFix()
-    // {
-    //     $participants = $this->Participants->find('all');
-
-    //     foreach ($participants as $participant) {
-    //         $this->Participants->updateAll(
-    //             ['qr' => md5(Configure::Read('Security.salt') . $participant->id)],
-    //             ['id' => $participant->id]
-    //         );
-    //     }
-    //     exit;
-    // }
 }

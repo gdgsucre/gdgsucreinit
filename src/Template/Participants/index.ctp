@@ -60,7 +60,7 @@ echo $this->Form->end();
                     name: 'id',
                     index: 'id',
                     key: true,
-                    hidden: true
+                    // hidden: true
                 },
                 {
                     label: 'Nombre',
@@ -68,19 +68,9 @@ echo $this->Form->end();
                     width: 200
                 },
                 {
-                    label: 'Ci',
-                    name: 'ci',
-                    width: 200
-                },
-                {
-                    label: 'Team',
-                    name: 'team',
-                    width: 200
-                },
-                {
                     label: 'Género',
                     name: 'gender',
-                    width: 120,
+                    width: 250,
                     stype: "select",
                     searchoptions: {value: "<?php echo $gender; ?>"},
                     formatter: genderFormatter
@@ -94,24 +84,16 @@ echo $this->Form->end();
                     formatter: yesOrNotFormatter
                 },
                 {
-                    label: 'Tipo',
-                    name: 'type2',
-                    width: 100,
-                    stype: "select",
-                    searchoptions: {value: "<?php echo $type; ?>"},
-                    formatter: typeFormatter
-                },
-                {
                     label: 'Tipos',
-                    name: 'types',
-                    width: 100,
-                    formatter: typesFormatter,
-                    search: false
+                    name: 'type',
+                    width: 150,
+                    stype: "select",
+                    searchoptions: {value: "<?php echo $typesList; ?>"},
                 },
                 {
                     label: '¿Impreso?',
                     name: 'printed',
-                    width: 100,
+                    width: 150,
                     stype: "select",
                     searchoptions: {value: "<?php echo $printed; ?>"},
                     formatter: printedFormatter
@@ -119,7 +101,7 @@ echo $this->Form->end();
                 {
                     label: "Estado",
                     name: 'status',
-                    width: 100,
+                    width: 150,
                     stype: "select",
                     searchoptions: {value: "<?php echo $status; ?>",defaultValue:'A'},
                     formatter: statusFormatter,
