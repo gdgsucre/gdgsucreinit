@@ -134,7 +134,7 @@ class ParticipantsController extends AppController
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
             $participant->created_by = $this->Auth->user('id');
-            $participant->qr = md5(Configure::Read('Security.salt') . $participant->id);
+            $participant->qr = md5(Configure::Read('Security.salt') . time());
             $save = $this->Participants->save($participant);
             if (!$save) {
                 $data['error'] = 1;
@@ -180,6 +180,10 @@ class ParticipantsController extends AppController
             $participant->name = mb_strtoupper(trim($participant->name));
             $participant->printed = empty($this->request->getData('printed')) ? 'N' : $participant->printed;
             $participant->status = empty($this->request->getData('status')) ? 'I' : $participant->status;
+            if($this->request->getData('is_qr') == 'Y'){
+                $participant->qr = md5(Configure::Read('Security.salt') . time());
+            }
+            
             $participant->modified_by = $this->Auth->user('id');
             if (!$this->Participants->save($participant)) {
                 $data['error'] = 1;
@@ -246,7 +250,7 @@ class ParticipantsController extends AppController
                 'fields' => ['id', 'name', 'type', 'qr', 'team'],
                 'conditions' => [
                     'status' => 'A',
-                    'printed' => 'N'
+                    'printed' => 'N',
                 ],
                 'order' => ['id' => 'ASC'],
                 'limit' => 9

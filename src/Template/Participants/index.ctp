@@ -91,6 +91,12 @@ echo $this->Form->end();
                     searchoptions: {value: "<?php echo $typesList; ?>"},
                 },
                 {
+                    label: 'QR',
+                    name: 'qr',
+                    width: 300,
+
+                },
+                {
                     label: '¿Impreso?',
                     name: 'printed',
                     width: 150,

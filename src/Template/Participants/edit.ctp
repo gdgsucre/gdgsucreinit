@@ -58,7 +58,14 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?php echo $this->Form->input('qr', ['label' => 'QR', 'readonly' => true]); ?>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="is_qr" class="icheck" value="Y" > Cambiar qr
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <?php echo $this->Form->input('qr', ['label' => 'QR']); ?>
                 </div>
 
             </div>
