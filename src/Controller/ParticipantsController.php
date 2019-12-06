@@ -284,7 +284,7 @@ class ParticipantsController extends AppController
     {
         $participants = $this->Participants->find('all', [
             'conditions' => [
-                'type' => 'PARTICIPANT',
+
             ],
             'order' => ['points' => 'DESC'],
         ]);
